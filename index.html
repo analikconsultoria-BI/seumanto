@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>Seu Manto – Camisas de Futebol</title>
+  <meta name="description"
+    content="Catálogo de camisas de futebol nacionais, europeias e retrô. Consulte via WhatsApp.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { gold: { DEFAULT: "#D6AF68", light: "#E2C16A", dark: "#A07830" } }, fontFamily: { sport: ["Bebas Neue", "sans-serif"], body: ["Inter", "sans-serif"] } } } }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #fff;
+      color: #111
+    }
+
+    .logo-ph {
+      width: 48px;
+      height: 48px;
+      border: 2px dashed #D6AF68;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #D6AF68;
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: .3px;
+      flex-shrink: 0
+    }
+
+    /* CAROUSEL TRACK */
+    .carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+    }
+
+    /* CARD */
+    .jersey-card {
+      width: 240px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      background: #f9f9f9;
+      border: 1px solid #ececec;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s
+    }
+
+    @media(min-width: 768px) {
+      .jersey-card {
+        width: calc((100% - 48px)/4);
+      }
+    }
+
+    .jersey-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(201, 168, 76, .18)
+    }
+
+    .jersey-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      background: #f0f0f0;
+      transition: transform .4s
+    }
+
+    .jersey-card:hover img {
+      transform: scale(1.06)
+    }
+
+    /* TAG */
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: .5px;
+      text-transform: uppercase
+    }
+
+    .tag-t {
+      background: #e6f4e6;
+      color: #2a7a2a
+    }
+
+    .tag-j {
+      background: #fff3e0;
+      color: #a05a00
+    }
+
+    .tag-r {
+      background: #ede7f6;
+      color: #4a2080
+    }
+
+    .tag-f {
+      background: #fce4ec;
+      color: #c62828
+    }
+
+    .tag-k {
+      background: #e3f2fd;
+      color: #1565c0
+    }
+
+    .tag-g {
+      background: #e8f5e9;
+      color: #2e7d32
+    }
+
+    .tag-tr {
+      background: #fff8e1;
+      color: #f57f17
+    }
+
+    .tag-se {
+      background: #fce4ec;
+      color: #ad1457
+    }
+
+    /* DRAWER */
+    .drawer {
+      transition: transform .35s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .drawer-open {
+      transform: translateX(0) !important
+    }
+
+    /* SECTION LABEL */
+    .sec-label {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      letter-spacing: .12em;
+      color: #111
+    }
+
+    /* GOLD LINE */
+    .gold-line {
+      width: 40px;
+      height: 3px;
+      background: #D6AF68;
+      border-radius: 2px;
+      margin: 6px 0 20px
+    }
+
+    /* HERO */
+    .hero-bg {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1000 100%)
+    }
+
+    /* CTA */
+    .btn-wpp {
+      background: #D6AF68;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 12px;
+      transition: background .25s, box-shadow .25s
+    }
+
+    .btn-wpp:hover {
+      background: #A07830;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, .35)
+    }
+
+    .nav-link {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #fff;
+      transition: color .2s;
+      white-space: nowrap
+    }
+
+    .nav-link:hover {
+      color: #D6AF68
+    }
+
+
+    /* CAT CIRCLE */
+    .cat-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #ececec;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: #f5f5f5;
+      transition: border-color .2s, transform .2s;
+      flex-shrink: 0
+    }
+
+    .cat-circle:hover {
+      border-color: #D6AF68;
+      transform: scale(1.08)
+    }
+
+    /* SCROLLBAR HIDE */
+    ::-webkit-scrollbar {
+      display: none
+    }
+
+    /* MOBILE MENU OVERLAY */
+    #overlay {
+      transition: opacity .3s
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- OVERLAY -->
+  <div id="overlay" onclick="closeMenu()" class="fixed inset-0 bg-black/50 z-40 hidden opacity-0"></div>
+
+  <!-- DRAWER -->
+  <aside id="drawer"
+    class="drawer fixed top-0 left-0 h-full w-72 bg-white z-50 -translate-x-full shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
+      <span class="font-sport text-2xl tracking-widest text-[#D6AF68]">MENU</span>
+      <button onclick="closeMenu()" class="text-gray-400 hover:text-black text-3xl leading-none">&times;</button>
+    </div>
+    <nav id="mobile-nav" class="p-4 space-y-1 text-sm font-semibold text-gray-700 flex-1 overflow-y-auto">
+      <!-- Populated by JS -->
+    </nav>
+    <div class="p-4 border-t border-gray-100 flex-shrink-0">
+      <a href="https://wa.me/5511999999999" target="_blank"
+        class="block px-4 py-3 rounded-lg text-[#D6AF68] bg-amber-50 text-center text-sm font-bold">&#128172; Falar no
+        WhatsApp</a>
+    </div>
+  </aside>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-30 bg-black border-b border-gray-800" style="backdrop-filter:blur(12px);">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+      <button onclick="openMenu()" class="p-2 rounded-lg hover:bg-gray-800 lg:hidden text-white">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <div class="flex items-center gap-3">
+        <img src="assets/img/logo.jfif" alt="Seu Manto Logo" class="h-12 w-12 object-contain rounded-lg shadow-sm">
+      </div>
+      <nav id="desktop-nav" class="hidden lg:flex items-center h-full">
+        <!-- Populated by JS -->
+      </nav>
+
+      <!-- Barra de Pesquisa -->
+      <div
+        class="hidden md:flex items-center border border-gray-700 rounded-full px-3 py-1.5 flex-1 max-w-sm mx-6 bg-[#1a1a1a] focus-within:bg-[#2a2a2a] focus-within:border-gold transition-colors">
+        <input type="text" id="global-search" placeholder="Buscar camisas, times, ligas..."
+          class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-gray-400">
+        <button onclick="performSearch()" class="text-gray-400 hover:text-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <a href="https://wa.me/5511999999999" target="_blank"
+        class="btn-wpp flex items-center gap-2 px-4 py-2 text-xs rounded-xl">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+        <span class="hidden sm:inline">Pedir a minha</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- BANNER HOME CAROUSEL -->
+  <section class="w-full relative">
+    <div class="swiper bannerSwiper w-full h-auto">
+      <div class="swiper-wrapper" id="home-banner-wrapper">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Navigation -->
+      <div class="swiper-button-next" style="color: #D6AF68;"></div>
+      <div class="swiper-button-prev" style="color: #D6AF68;"></div>
+    </div>
+  </section>
+
+
+  <!-- BANNERS CATEGORIAS -->
+  <section class="w-full py-8 max-w-7xl mx-auto px-4 lg:px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <a href="categoria.html?v=Brasileirão"
+        class="block overflow-hidden rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300">
+        <img id="banner-cat-nac-d" src="https://placehold.co/400x600/111/39FF14?text=BRASILEIRAO"
+          class="hidden md:block w-full h-auto object-cover">
+        <img id="banner-cat-nac-m" src="https://placehold.co/600x800/111/39FF14?text=BRASILEIRAO+Mobile"
+          alt="Brasileir&atilde;o" class="block md:hidden w-full h-auto object-cover">
+      </a>
+      <a href="categoria.html?v=Internacionais"
+        class="block overflow-hidden rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300">
+        <img id="banner-cat-int-d" src="https://placehold.co/400x600/111/39FF14?text=INTERNACIONAIS"
+          class="hidden md:block w-full h-auto object-cover">
+        <img id="banner-cat-int-m" src="https://placehold.co/600x800/111/39FF14?text=INTERNACIONAIS+Mobile"
+          alt="Internacionais" class="block md:hidden w-full h-auto object-cover">
+      </a>
+      <a href="categoria.html?v=La%20Liga"
+        class="block overflow-hidden rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300">
+        <img id="banner-cat-ret-d" src="https://placehold.co/400x600/111/39FF14?text=CAMISAS+RETRO"
+          class="hidden md:block w-full h-auto object-cover">
+        <img id="banner-cat-ret-m" src="https://placehold.co/600x800/111/39FF14?text=CAMISAS+RETRO+Mobile"
+          alt="Retr&ocirc;" class="block md:hidden w-full h-auto object-cover">
+      </a>
+    </div>
+  </section>
+
+  <!-- TEAM LOGOS SCROLLER -->
+  <section class="w-full py-8 max-w-7xl mx-auto px-4 lg:px-6" id="team-logos-section" style="display: none;">
+    <div class="text-center mb-6 border-b border-gray-100 pb-4">
+      <h2 class="font-sport tracking-widest text-xl md:text-3xl text-gray-900 uppercase">Encontre seu Manto &rsaquo;&rsaquo;</h2>
+    </div>
+    <div class="swiper teamSwiper w-full relative px-8 md:px-12">
+      <!-- Arrows (Absolute inside swiper wrapper container) -->
+      <button class="team-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 text-gray-400 hover:text-[#D6AF68] hover:border-[#D6AF68] hover:bg-gray-50 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full transition-all outline-none focus:outline-none shadow-sm opacity-70 hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed">
+        <svg class="w-4 h-4 md:w-5 md:h-5 -ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+
+      <div id="team-logos-container" class="swiper-wrapper py-2">
+        <!-- Injetado via JS em app.js -->
+      </div>
+
+      <button class="team-next absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 text-gray-400 hover:text-[#D6AF68] hover:border-[#D6AF68] hover:bg-gray-50 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full transition-all outline-none focus:outline-none shadow-sm opacity-70 hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed">
+        <svg class="w-4 h-4 md:w-5 md:h-5 -mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- DYNAMIC CATALOG -->
+  <div id="dynamic-catalog"></div>
+
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-50 pt-16 pb-8 px-6 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
+      <div>
+        <img src="assets/img/logo.jfif" alt="Seu Manto Logo" class="h-12 w-12 object-contain rounded-lg shadow-sm mb-4">
+        <p class="text-gray-500 mb-6 leading-relaxed text-[13px]">Sua paix&atilde;o estampada no peito. Camisas de
+          futebol de alt&iacute;ssima qualidade com envio para todo o Brasil.</p>
+        <a href="https://wa.me/5511999999999" target="_blank"
+          class="text-green-600 font-bold flex items-center gap-2 hover:text-green-700">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+          Atendimento via WhatsApp
+        </a>
+      </div>
+
+      <div id="footer-cats-container" class="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div
+      class="max-w-7xl mx-auto border-t border-gray-200 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400">
+      <p>&copy; 2025 Seu Manto &bull; Todos os direitos reservados.</p>
+      <p class="mt-2 md:mt-0">Tecnologia desenvolvida com <span class="text-red-500">&hearts;</span></p>
+    </div>
+  </footer>
+
+  <script src="csv_loader.js?v=31"></script>
+  <script src="app.js?v=31"></script>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Carregar banners do localStorage
+      let bannersData = null;
+      try {
+        bannersData = JSON.parse(localStorage.getItem('seumanto_banners'));
+      } catch (e) {}
+
+      // Fallback
+      if (!bannersData || !bannersData.home_desktop) {
+        bannersData = {
+          home_desktop: ["assets/img/banner_home_desktop.jpg"],
+          home_mobile: ["assets/img/banner_home_desktop.jpg"]
+        };
+      }
+      
+      // Se for string antiga, converte para array
+      let desktops = Array.isArray(bannersData.home_desktop) ? bannersData.home_desktop : [bannersData.home_desktop];
+      let mobiles = Array.isArray(bannersData.home_mobile) ? bannersData.home_mobile : [bannersData.home_mobile];
+      let links = Array.isArray(bannersData.home_links) ? bannersData.home_links : (bannersData.home_links ? [bannersData.home_links] : []);
+      
+      // Strict fallback caso esteja vazio
+      if (!desktops || desktops.length === 0 || !desktops[0]) {
+        desktops = ["assets/img/banner_home_desktop.jpg"];
+      }
+      if (!mobiles || mobiles.length === 0 || !mobiles[0]) {
+        mobiles = desktops; // usa o desktop se não tiver mobile
+      }
+
+      // Auto-corrigir extensões .jfif para .jpg
+      desktops = desktops.map(url => url ? url.replace(/\.jfif$/i, '.jpg') : url);
+      mobiles = mobiles.map(url => url ? url.replace(/\.jfif$/i, '.jpg') : url);
+
+      const wrapper = document.getElementById('home-banner-wrapper');
+      
+      if (desktops.length > 0 && desktops[0]) {
+        let html = '';
+        const maxBanners = Math.max(desktops.length, mobiles.length);
+        const fallbackUrl = 'https://placehold.co/1920x600/222/D6AF68?text=Imagem+Nao+Encontrada';
+        for (let i = 0; i < maxBanners; i++) {
+          let dImg = desktops[i] || desktops[0];
+          let mImg = mobiles[i] || dImg || mobiles[0];
+          let link = links[i] || "";
+          
+          let imgContent = `
+              <img src="${dImg}" onerror="this.src='${fallbackUrl}'" class="hidden md:block w-full h-auto object-cover" alt="Banner ${i+1} Desktop">
+              <img src="${mImg}" onerror="this.src='${fallbackUrl}'" class="block md:hidden w-full h-auto object-cover" alt="Banner ${i+1} Mobile">
+          `;
+          let slideContent = link ? `<a href="${link}" class="block w-full h-full">${imgContent}</a>` : imgContent;
+          
+          html += `
+            <div class="swiper-slide cursor-pointer">
+              ${slideContent}
+            </div>
+          `;
+        }
+        wrapper.innerHTML = html;
+      }
+
+      // Inicia o carrossel
+      new Swiper(".bannerSwiper", {
+        loop: true,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+
+      // Atualiza os outros banners fixos na página (se existirem)
+      const setBannerSrc = (id, srcArray) => {
+        const el = document.getElementById(id);
+        if (el && srcArray) {
+          let src = Array.isArray(srcArray) ? srcArray[0] : srcArray;
+          if (src) {
+            src = src.replace(/\.jfif$/i, '.jpg');
+            el.src = src;
+          }
+        }
+      };
+
+      setBannerSrc('banner-cat-nac-d', bannersData.cat_nac_d);
+      setBannerSrc('banner-cat-nac-m', bannersData.cat_nac_m);
+      setBannerSrc('banner-cat-int-d', bannersData.cat_int_d);
+      setBannerSrc('banner-cat-int-m', bannersData.cat_int_m);
+      setBannerSrc('banner-cat-ret-d', bannersData.cat_ret_d);
+      setBannerSrc('banner-cat-ret-m', bannersData.cat_ret_m);
+      setBannerSrc('banner-grid-d', bannersData.grids_desktop);
+      setBannerSrc('banner-grid-m', bannersData.grids_mobile);
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="referrer" content="no-referrer">
+  <title>Produto – Seu Manto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { gold: { DEFAULT: "#D6AF68", light: "#E2C16A", dark: "#A07830" } }, fontFamily: { sport: ["Bebas Neue", "sans-serif"], body: ["Inter", "sans-serif"] } } } }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #fff;
+      color: #111
+    }
+
+    .btn-wpp {
+      background: #25D366;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 8px;
+      transition: all .2s;
+    }
+
+    .btn-wpp:hover {
+      background: #1ebd5a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: .5px;
+      text-transform: uppercase
+    }
+
+    .tag-t {
+      background: #111;
+      color: #D6AF68
+    }
+
+    /* Premium Gallery Styles */
+    .gallery-container {
+      display: flex;
+      gap: 20px;
+      height: 600px;
+    }
+
+    .thumbs-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      width: 80px;
+      padding-right: 4px;
+    }
+
+    .thumbs-col::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .thumbs-col::-webkit-scrollbar-thumb {
+      background: #e5e5e5;
+      border-radius: 4px;
+    }
+
+    .thumb-item {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.6;
+      transition: all 0.2s;
+      background: #f9f9f9;
+    }
+
+    .thumb-item:hover {
+      opacity: 1;
+    }
+
+    .thumb-item.active {
+      border-color: #D6AF68;
+      opacity: 1;
+    }
+
+    .main-img-col {
+      flex: 1;
+      background: #f9f9f9;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .main-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Mobile Carousel */
+    .mob-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 0;
+    }
+
+    .mob-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mob-slide {
+      min-width: 100%;
+      scroll-snap-align: center;
+    }
+
+    .mob-slide img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: #f9f9f9;
+    }
+
+    .size-btn {
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 10px 0;
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: calc(33.333% - 8px);
+    }
+
+    .size-btn:hover {
+      border-color: #111;
+    }
+
+    @media (max-width: 1024px) {
+      .gallery-container {
+        display: none;
+      }
+
+      .mob-carousel-wrapper {
+        display: block;
+        position: relative;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .mob-carousel-wrapper {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="border-b border-gray-800 bg-black">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+      <a href="index.html" class="font-sport text-2xl tracking-widest text-white flex-shrink-0">SEU MANTO</a>
+
+      <div
+        class="hidden md:flex items-center border border-gray-700 rounded-full px-3 py-1.5 w-full max-w-sm mx-6 bg-[#1a1a1a] focus-within:bg-[#2a2a2a] focus-within:border-gold transition-colors">
+        <input type="text" id="global-search" placeholder="Buscar camisas, times, ligas..."
+          class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-gray-400">
+        <button onclick="performSearch()" class="text-gray-400 hover:text-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <a href="index.html"
+        class="text-sm font-semibold text-gray-400 hover:text-white transition-colors flex-shrink-0">← Voltar</a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-0 lg:px-8 py-0 lg:py-10" id="product-container">
+    <div class="text-center py-20">
+      <h2 class="text-2xl font-bold animate-pulse text-gray-300">Carregando manto...</h2>
+    </div>
+  </main>
+
+  <footer class="py-12 px-6 text-center border-t border-gray-100 mt-12 bg-gray-50">
+    <p class="font-sport text-xl tracking-widest text-gray-900 mb-2">SEU MANTO</p>
+    <p class="text-xs text-gray-500">&copy; 2025 Seu Manto. Qualidade Premium.</p>
+  </footer>
+
+  <script src="csv_loader.js?v=31"></script>
+  <script src="app.js?v=31"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let searchStr = window.location.search;
+      if (!searchStr && window.location.href.includes('?')) {
+        searchStr = window.location.href.substring(window.location.href.indexOf('?'));
+      }
+      const urlParams = new URLSearchParams(searchStr);
+      const productId = urlParams.get('id');
+      const container = document.getElementById('product-container');
+
+      const renderProduct = () => {
+        const productKeys = Object.keys(PRODUCTS);
+        if (productKeys.length === 0) {
+          setTimeout(renderProduct, 100);
+          return;
+        }
+
+        let product = null;
+        for (const cat in PRODUCTS) {
+          const found = PRODUCTS[cat].find(p => p.id === productId);
+          if (found) { product = found; break; }
+        }
+
+        if (product) {
+          const msg = encodeURIComponent("Olá! Gostaria de pedir: " + product.name);
+          const sizes = product.sizes || ["S", "M", "L", "XL", "2XL"];
+          const images = product.images && product.images.length > 0 ? product.images : [product.img];
+
+          const priceInfo = product.priceInfo || { hasPrice: false, baseStr: "Consultar" };
+
+          // Desktop Gallery HTML
+          let thumbsHtml = images.map((img, i) =>
+            `<img src="${img}" class="thumb-item ${i === 0 ? 'active' : ''}" onclick="changeMainImage('${img}', this)" title="${i === 0 ? 'Capa' : 'Detalhe'}">`
+          ).join('');
+
+          // Mobile Carousel HTML
+          let mobSlidesHtml = images.map((img, i) =>
+            `<div class="mob-slide relative">
+              <img src="${img}">
+              ${i === 0 ? `<div class="absolute top-4 left-4 bg-black text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded">Capa da Vitrine</div>` : ''}
+             </div>`
+          ).join('');
+
+          container.innerHTML = `
+          <div class="flex flex-col lg:flex-row gap-0 lg:gap-12">
+            
+            <!-- MOBILE CAROUSEL -->
+            <div class="mob-carousel-wrapper w-full">
+              <div class="mob-carousel" id="mob-carousel">
+                ${mobSlidesHtml}
+              </div>
+              <div class="flex justify-center gap-1.5 mt-3 mb-6 px-4">
+                ${images.map((_, i) => `<div class="w-2 h-2 rounded-full bg-gray-300"></div>`).join('')}
+              </div>
+            </div>
+
+            <!-- DESKTOP GALLERY -->
+            <div class="lg:w-[60%] gallery-container">
+              <div class="thumbs-col">
+                <div class="text-[9px] font-bold text-gray-400 uppercase tracking-widest text-center mb-1">Capa</div>
+                ${thumbsHtml}
+              </div>
+              <div class="main-img-col">
+                <img id="main-product-img" src="${images[0]}" class="main-img">
+              </div>
+            </div>
+
+            <!-- PRODUCT INFO -->
+            <div class="lg:w-[40%] px-5 lg:px-0 flex flex-col justify-center">
+                <!-- Separated Cover Image as Identity Reference -->
+                <div class="flex items-center gap-4 p-3 bg-gray-50 border border-gray-100 rounded-xl mb-6 hidden">
+                  <img src="${images[0]}" class="w-20 h-20 object-cover rounded-lg bg-white shadow-sm">
+                  <div>
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-gray-400">Visto na Vitrine</span>
+                    <h2 class="text-sm font-bold text-gray-800 leading-snug mt-1">${product.name}</h2>
+                  </div>
+                </div>
+
+                <div class="mb-6">
+                  <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 leading-tight mb-4">
+                    ${product.name}
+                  </h1>
+                ${priceInfo.hasPrice ? `
+                <div class="flex items-end gap-3 mb-1">
+                  <span class="text-sm text-gray-400 line-through mb-1">${priceInfo.oldStr}</span>
+                  <span class="text-4xl font-extrabold text-black tracking-tight">${priceInfo.baseStr}</span>
+                </div>
+                <div class="text-sm font-bold text-[#10b981] mb-2 flex items-center gap-1.5">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
+                  ${priceInfo.pixStr} com Pix
+                </div>
+                <div class="text-xs text-gray-500 font-medium">
+                  ou ${priceInfo.instStr} sem juros no cartão
+                </div>
+                ` : `
+                <div class="flex items-end gap-3 mb-1">
+                  <span class="text-4xl font-extrabold text-black tracking-tight">Consultar Preço</span>
+                </div>
+                <div class="text-xs text-[#10b981] font-bold mt-2">
+                  Fale conosco no WhatsApp para consultar o valor deste item.
+                </div>
+                `}
+              </div>
+
+              <div class="mb-8">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-bold text-gray-900">Selecione o Tamanho</h3>
+                  <a href="#" class="text-xs text-gray-400 underline">Tabela de Medidas</a>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  ${sizes.map(s => `<div class="size-btn">${s}</div>`).join('')}
+                </div>
+              </div>
+              
+              <button onclick="window.open('https://wa.me/5511999999999?text=${msg}','_blank')" class="btn-wpp w-full py-4 text-lg flex items-center justify-center gap-2 shadow-sm mb-6">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Pedir no WhatsApp
+              </button>
+
+              <div class="pt-6 border-t border-gray-100">
+                <h3 class="font-bold text-sm text-gray-900 mb-2">Detalhes Premium 1:1</h3>
+                <ul class="text-sm text-gray-500 space-y-2 list-disc pl-4">
+                  <li>Tecido tecnológico de alta respirabilidade</li>
+                  <li>Escudos e patrocínios fiéis à versão original</li>
+                  <li>Etiquetas e tags de autenticidade inclusas</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          `;
+          document.title = (product.fullName || product.name) + " - Seu Manto";
+        } else {
+          container.innerHTML = `<div class="text-center py-20"><h2 class="text-2xl font-bold mb-4">Produto não encontrado</h2></div>`;
+        }
+      };
+
+      renderProduct();
+    });
+
+    function changeMainImage(src, thumbEl) {
+      const mainImg = document.getElementById('main-product-img');
+      if (mainImg) {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = src;
+          mainImg.style.opacity = '1';
+        }, 150);
+      }
+      document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+      if (thumbEl) thumbEl.classList.add('active');
+    }
+  </script>
+</body>
+
+</html>

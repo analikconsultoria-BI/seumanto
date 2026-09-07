@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>Categoria – Seu Manto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { gold: { DEFAULT: "#D6AF68", light: "#E2C16A", dark: "#A07830" } }, fontFamily: { sport: ["Bebas Neue", "sans-serif"], body: ["Inter", "sans-serif"] } } } }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #fff;
+      color: #111
+    }
+
+    .logo-ph {
+      width: 48px;
+      height: 48px;
+      border: 2px dashed #D6AF68;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #D6AF68;
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: .3px;
+      flex-shrink: 0
+    }
+
+    /* CARD */
+    .jersey-card {
+      background: #f9f9f9;
+      border: 1px solid #ececec;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s
+    }
+
+    .jersey-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(201, 168, 76, .18)
+    }
+
+    .jersey-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      background: #f0f0f0;
+      transition: transform .4s
+    }
+
+    .jersey-card:hover img {
+      transform: scale(1.06)
+    }
+
+    /* TAG */
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: .5px;
+      text-transform: uppercase
+    }
+
+    .tag-t {
+      background: #e6f4e6;
+      color: #2a7a2a
+    }
+
+    .tag-j {
+      background: #fff3e0;
+      color: #a05a00
+    }
+
+    .tag-r {
+      background: #ede7f6;
+      color: #4a2080
+    }
+
+    .tag-f {
+      background: #fce4ec;
+      color: #c62828
+    }
+
+    .tag-k {
+      background: #e3f2fd;
+      color: #1565c0
+    }
+
+    .tag-g {
+      background: #e8f5e9;
+      color: #2e7d32
+    }
+
+    .tag-tr {
+      background: #fff8e1;
+      color: #f57f17
+    }
+
+    .tag-se {
+      background: #fce4ec;
+      color: #ad1457
+    }
+
+    /* DRAWER */
+    .drawer {
+      transition: transform .35s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .drawer-open {
+      transform: translateX(0) !important
+    }
+
+    /* SECTION LABEL */
+    .sec-label {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      letter-spacing: .12em;
+      color: #111
+    }
+
+    .gold-line {
+      width: 40px;
+      height: 3px;
+      background: #D6AF68;
+      border-radius: 2px;
+      margin: 6px 0 20px
+    }
+
+    .btn-wpp {
+      background: #D6AF68;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 12px;
+      transition: background .25s, box-shadow .25s
+    }
+
+    .btn-wpp:hover {
+      background: #A07830;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, .35)
+    }
+
+    .nav-link {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #fff;
+      transition: color .2s;
+      white-space: nowrap
+    }
+
+    .nav-link:hover {
+      color: #D6AF68
+    }
+
+    ::-webkit-scrollbar {
+      display: none
+    }
+
+    #overlay {
+      transition: opacity .3s
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- OVERLAY -->
+  <div id="overlay" onclick="closeMenu()" class="fixed inset-0 bg-black/50 z-40 hidden opacity-0"></div>
+
+  <!-- DRAWER -->
+  <aside id="drawer"
+    class="drawer fixed top-0 left-0 h-full w-72 bg-white z-50 -translate-x-full shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
+      <span class="font-sport text-2xl tracking-widest text-[#D6AF68]">MENU</span>
+      <button onclick="closeMenu()" class="text-gray-400 hover:text-black text-3xl leading-none">&times;</button>
+    </div>
+    <nav id="mobile-nav" class="p-4 space-y-1 text-sm font-semibold text-gray-700 flex-1 overflow-y-auto"></nav>
+    <div class="p-4 border-t border-gray-100 flex-shrink-0">
+      <a href="https://wa.me/5511999999999" target="_blank"
+        class="block px-4 py-3 rounded-lg text-[#D6AF68] bg-amber-50 text-center text-sm font-bold">&#128172; Falar no
+        WhatsApp</a>
+    </div>
+  </aside>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-30 bg-black border-b border-gray-800" style="backdrop-filter:blur(12px);">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+      <button onclick="openMenu()" class="p-2 rounded-lg hover:bg-gray-800 lg:hidden text-white">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/img/logo.jfif" alt="Seu Manto Logo" class="h-12 w-12 object-contain rounded-lg shadow-sm">
+      </a>
+      <nav id="desktop-nav" class="hidden lg:flex items-center h-full"></nav>
+
+      <!-- Barra de Pesquisa -->
+      <div
+        class="hidden md:flex items-center border border-gray-700 rounded-full px-3 py-1.5 flex-1 max-w-sm mx-6 bg-[#1a1a1a] focus-within:bg-[#2a2a2a] focus-within:border-gold transition-colors">
+        <input type="text" id="global-search" placeholder="Buscar camisas, times, ligas..."
+          class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-gray-400">
+        <button onclick="performSearch()" class="text-gray-400 hover:text-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <a href="https://wa.me/5511999999999" target="_blank"
+        class="btn-wpp flex items-center gap-2 px-4 py-2 text-xs rounded-xl">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+        <span class="hidden sm:inline">Pedir a minha</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- CATEGORY GRID -->
+  <section class="py-12 bg-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-6 mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <a href="index.html" class="text-xs text-gray-400 hover:text-black mb-2 inline-block">&larr; Voltar para
+          Home</a>
+        <h2 class="sec-label" id="category-title">CATEGORIA</h2>
+        <div class="gold-line mb-0"></div>
+      </div>
+      <div class="text-xs text-gray-500 font-medium" id="category-count">Carregando...</div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="max-w-7xl mx-auto px-4 md:px-6 mb-8">
+      <div class="flex items-center gap-3 overflow-x-auto pb-2 hide-scrollbar" id="type-filters-container">
+        <!-- JS renderiza -->
+      </div>
+      
+      <div class="flex items-center gap-3 overflow-x-auto pb-2 pt-2 hide-scrollbar" id="liga-filters-container" style="display:none;">
+        <!-- JS renderiza -->
+      </div>
+
+      <div class="flex items-center gap-4 overflow-x-auto pb-4 pt-2 hide-scrollbar mt-2" id="team-filters-container">
+        <!-- JS renderiza -->
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-sm text-gray-500" id="results-count"></span>
+        <!-- Ordenar por futuro -->
+      </div>
+      <div id="category-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <!-- JS irá preencher isso -->
+      </div>
+      <div id="pagination" class="flex flex-wrap justify-center items-center gap-2 mt-12 pb-8"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-50 pt-16 pb-8 px-6 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
+      <div>
+        <img src="assets/img/logo.jfif" alt="Seu Manto Logo" class="h-12 w-12 object-contain rounded-lg shadow-sm mb-4">
+        <p class="text-gray-500 mb-6 leading-relaxed text-[13px]">Sua paixão estampada no peito.</p>
+      </div>
+      <div id="footer-cats-container" class="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-8"></div>
+    </div>
+  </footer>
+
+  <style>
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .filter-btn {
+      transition: all 0.2s;
+      white-space: nowrap;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: #112240;
+      color: white;
+    }
+
+    .filter-btn.inactive {
+      background: transparent;
+      color: #4b5563;
+    }
+
+    .filter-btn.inactive:hover {
+      background: #f3f4f6;
+    }
+
+    .team-badge-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .team-badge-btn.active {
+      border-color: #112240;
+      background: white;
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(17, 34, 64, 0.15);
+    }
+
+    .team-badge-btn:hover:not(.active) {
+      border-color: #d1d5db;
+      background: white;
+      transform: scale(1.05);
+    }
+
+    .team-badge-btn img {
+      width: 65%;
+      height: 65%;
+      object-fit: contain;
+    }
+  </style>
+
+  <script src="csv_loader.js?v=31"></script>
+  <script src="app.js?v=31"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Parse params manually to handle file:// protocols better
+      let searchStr = window.location.search;
+      if (!searchStr && window.location.href.includes('?')) {
+        searchStr = window.location.href.substring(window.location.href.indexOf('?'));
+      }
+      const urlParams = new URLSearchParams(searchStr);
+      let catName = urlParams.get('v');
+
+      // Fallback in case of wrong URL
+      if (!catName) {
+        document.getElementById('category-title').innerText = 'Categoria não encontrada';
+        document.getElementById('category-count').innerText = 'Volte para a página inicial e tente novamente.';
+        return;
+      }
+
+      document.getElementById('category-title').innerText = catName.toUpperCase();
+      document.title = catName + " – Seu Manto";
+
+      let currentTypeFilter = 'all';
+      let currentTeamFilter = 'all';
+      let currentLigaFilter = 'all';
+
+      const TEAM_BADGES = {
+        'flamengo': 'assets/img/escudos/br/Flamengo_f.webp',
+        'corinthians': 'assets/img/escudos/br/Corinthians_f.webp',
+        'palmeiras': 'assets/img/escudos/br/palmeiras_f.webp',
+        'sao paulo': 'assets/img/escudos/br/Sao-Paulo_f.webp',
+        'são paulo': 'assets/img/escudos/br/Sao-Paulo_f.webp',
+        'vasco': 'assets/img/escudos/br/Vasco_f.webp',
+        'vasco da gama': 'assets/img/escudos/br/Vasco_f.webp',
+        'santos': 'assets/img/escudos/br/Santos.svg',
+        'gremio': 'assets/img/escudos/br/Gremio.webp',
+        'grêmio': 'assets/img/escudos/br/Gremio.webp',
+        'internacional': 'assets/img/escudos/br/Internacional_f.webp',
+        'cruzeiro': 'assets/img/escudos/br/Cruzeiro_f.webp',
+        'atletico mineiro': 'assets/img/escudos/br/Atletico-Mineiro_f.webp',
+        'atlético mineiro': 'assets/img/escudos/br/Atletico-Mineiro_f.webp',
+        'botafogo': 'assets/img/escudos/br/Botafogo_f.webp',
+        'fluminense': 'assets/img/escudos/br/Fluminense_f.webp',
+        'atletico paranaense': 'assets/img/escudos/br/Atletico-Paranaense_f.webp',
+        'bahia': 'assets/img/escudos/br/Bahia_f.webp',
+        'fortaleza': 'assets/img/escudos/br/Fortaleza_f.webp',
+        'coritiba': 'assets/img/escudos/br/Coritiba_f.webp',
+        'ceara': 'assets/img/escudos/br/Ceara_f.webp',
+        'ceará': 'assets/img/escudos/br/Ceara_f.webp',
+        'bragantino': 'assets/img/escudos/br/Bragantino_f.webp',
+        'atletico go': 'assets/img/escudos/br/Atletico-Go_f.webp',
+        'chapecoense': 'assets/img/escudos/br/Chapecoense_f.webp',
+        'mirassol': 'assets/img/escudos/br/Mirassol.svg',
+        'remo': 'assets/img/escudos/br/Remo.webp',
+        'vitória': 'assets/img/escudos/br/Vitoria.svg',
+        'vitoria': 'assets/img/escudos/br/Vitoria.svg',
+        'arsenal': 'assets/img/escudos/int/Arsenal_SF4x.webp',
+        'bayern': 'assets/img/escudos/int/Bayern_SF4x.webp',
+        'borussia': 'assets/img/escudos/int/Borussia_SF4x.webp',
+        'chelsea': 'assets/img/escudos/int/Chelsea_SF4x.webp',
+        'juventus': 'assets/img/escudos/int/Juventus_SF4x.webp',
+        'liverpool': 'assets/img/escudos/int/Liverpool_SF4x.webp',
+        'manchester city': 'assets/img/escudos/int/M-City_SF4x.webp',
+        'manchester united': 'assets/img/escudos/int/M-United_SF4x.webp',
+        'milan': 'assets/img/escudos/int/Milan_SF4x.webp',
+        'psg': 'assets/img/escudos/int/Psg_SF4x.webp',
+        'paris saint germain': 'assets/img/escudos/int/Psg_SF4x.webp',
+        'real madrid': 'assets/img/escudos/int/Real-Madrid_SF4x.webp',
+        'tottenham': 'assets/img/escudos/int/Tottenhan_SF4x.webp',
+      };
+
+      const renderGrid = () => {
+        const productKeys = Object.keys(PRODUCTS);
+        // Espera infinitamente até o csv_loader/app.js?v=31 carregar os produtos
+        if (productKeys.length === 0) {
+          setTimeout(renderGrid, 100);
+          return;
+        }
+
+        const allProducts = [];
+        Object.values(PRODUCTS).forEach(catArray => {
+          catArray.forEach(p => {
+            if (!p.vitrines) p.vitrines = ['Lançamentos'];
+            allProducts.push(p);
+          });
+        });
+
+        // Smart Categorization: Match team name, league, vitrine, or full name
+        const searchVal = catName.toLowerCase().trim();
+        const removeAccents = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        let baseItems = allProducts.filter(p => {
+          // Exact matches for specific categories/vitrines
+          if (p.vitrines && p.vitrines.some(v => v.toLowerCase() === searchVal)) return true;
+          if (p.liga && p.liga.toLowerCase() === searchVal) return true;
+          if (searchVal === 'brasileiros' && (p.liga === 'Brasileirão' || p.category === 'brasileirao')) return true;
+          if (searchVal === 'internacionais' && (p.liga !== 'Brasileirão' && p.category !== 'brasileirao')) return true;
+
+          // Tokenized robust search
+          const stopwords = ['de', 'do', 'da', 'dos', 'das', 'e', 'para', 'com', 'camisas', 'camisa'];
+          let searchTokens = removeAccents(searchVal).split(/\s+/).filter(t => t && !stopwords.includes(t));
+          
+          // Simple plural stemming (remove 's' at the end)
+          searchTokens = searchTokens.map(t => (t.endsWith('s') && t.length > 3) ? t.slice(0, -1) : t);
+          
+          // Se a busca for só "camisa" ou "camisas", a array de tokens fica vazia por causa do stopword.
+          // Nesse caso, queremos retornar tudo (que seja camisa).
+          if (searchTokens.length === 0 && (searchVal.includes('camisa') || searchVal.includes('camisas'))) {
+             return p.type && p.type.toLowerCase() === 'camisa';
+          }
+          if (searchTokens.length === 0) return true; // fallback
+
+          const searchableText = removeAccents(`${p.name} ${p.fullName} ${p.team} ${p.tagLabel} ${p.type} ${p.liga}`).toLowerCase();
+          
+          return searchTokens.every(token => searchableText.includes(token));
+        });
+
+        // Initialize filters UI once
+        if (!window.filtersRendered) {
+          renderFilters(baseItems);
+          window.filtersRendered = true;
+        }
+
+        // Apply filters
+        let items = baseItems;
+        if (currentLigaFilter !== 'all') {
+          items = items.filter(p => p.liga === currentLigaFilter);
+        }
+        if (currentTypeFilter !== 'all') {
+          items = items.filter(p => p.type === currentTypeFilter);
+        }
+        if (currentTeamFilter !== 'all') {
+          items = items.filter(p => p.team === currentTeamFilter);
+        }
+
+        // Aplicar a mesma lógica de variedade para evitar grupos do mesmo time
+        if (window.getVariedItems && items.length > 0 && currentTeamFilter === 'all') {
+          items = window.getVariedItems(items, items.length);
+        }
+
+        const PAGE_SIZE = 20;
+        const totalItems = items.length;
+        const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
+
+        if (window.currentPage > totalPages) window.currentPage = totalPages;
+
+        const start = (window.currentPage - 1) * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+        const paginatedItems = items.slice(start, end);
+
+        document.getElementById('category-count').innerText = "Mostrando " + paginatedItems.length + " de " + totalItems + " produtos";
+        document.getElementById('results-count').innerText = totalItems + " produto(s) encontrado(s)";
+
+        const gridEl = document.getElementById('category-grid');
+        if (paginatedItems.length > 0) {
+          gridEl.innerHTML = paginatedItems.map(cardHTML).join("");
+        } else {
+          gridEl.innerHTML = "<p class='col-span-full text-center text-gray-500 py-10'>Nenhum produto encontrado.</p>";
+        }
+
+        // Render Pagination
+        const pagEl = document.getElementById('pagination');
+        if (totalPages > 1) {
+          let pHtml = '';
+          if (window.currentPage > 1) {
+            pHtml += `<button onclick="setPage(${window.currentPage - 1})" class="px-3 py-1.5 border border-gray-200 rounded-md text-sm font-semibold hover:border-gold hover:text-gold">&laquo; Anterior</button>`;
+          }
+
+          let startPage = Math.max(1, window.currentPage - 2);
+          let endPage = Math.min(totalPages, startPage + 4);
+          if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+          }
+
+          for (let i = startPage; i <= endPage; i++) {
+            if (i === window.currentPage) {
+              pHtml += `<span class="px-3 py-1.5 bg-gold text-white rounded-md text-sm font-bold">${i}</span>`;
+            } else {
+              pHtml += `<button onclick="setPage(${i})" class="px-3 py-1.5 border border-gray-200 rounded-md text-sm hover:border-gold hover:text-gold">${i}</button>`;
+            }
+          }
+
+          if (window.currentPage < totalPages) {
+            pHtml += `<button onclick="setPage(${window.currentPage + 1})" class="px-3 py-1.5 border border-gray-200 rounded-md text-sm font-semibold hover:border-gold hover:text-gold">Próxima &raquo;</button>`;
+          }
+          pagEl.innerHTML = pHtml;
+        } else {
+          pagEl.innerHTML = '';
+        }
+      };
+
+      const renderFilters = (baseItems) => {
+        let types = [];
+        let teams = [];
+        let ligas = [];
+        baseItems.forEach(p => {
+          if (p.type && !types.includes(p.type)) types.push(p.type);
+          if (p.team && !teams.includes(p.team)) teams.push(p.team);
+          if (p.liga && !ligas.includes(p.liga) && p.liga !== p.category) ligas.push(p.liga);
+        });
+        types.sort();
+        teams.sort();
+        ligas.sort();
+
+        // Render Liga Filters
+        const ligaContainer = document.getElementById('liga-filters-container');
+        if (ligas.length > 1) {
+          ligaContainer.innerHTML = `<button class="filter-btn ${currentLigaFilter === 'all' ? 'active' : 'inactive'}" onclick="setLigaFilter('all')">Todas as Ligas</button>`;
+          ligas.forEach(liga => {
+             ligaContainer.innerHTML += `<button class="filter-btn ${currentLigaFilter === liga ? 'active' : 'inactive'}" onclick="setLigaFilter('${liga}')">${liga}</button>`;
+          });
+          ligaContainer.style.display = 'flex';
+        } else {
+          ligaContainer.style.display = 'none';
+        }
+
+        const typeContainer = document.getElementById('type-filters-container');
+        typeContainer.innerHTML = `<button class="filter-btn ${currentTypeFilter === 'all' ? 'active' : 'inactive'}" onclick="setTypeFilter('all')">Ver Tudo</button>`;
+
+        const pluralize = (t) => {
+          if (t.toLowerCase() === 'calção') return 'Calções';
+          if (t.toLowerCase() === 'corta vento') return 'Corta Ventos';
+          if (t.toLowerCase() === 'infantil') return 'Infantil';
+          if (t.toLowerCase() === 'feminino') return 'Feminino';
+          if (t.endsWith('s')) return t; // Already plural (e.g. Kits)
+          return t + 's';
+        };
+
+        types.forEach(type => {
+          typeContainer.innerHTML += `<button class="filter-btn ${currentTypeFilter === type ? 'active' : 'inactive'}" onclick="setTypeFilter('${type}')">${pluralize(type)}</button>`;
+        });
+
+        // Render Team Filters
+        const teamContainer = document.getElementById('team-filters-container');
+        teamContainer.innerHTML = `<button class="filter-btn ${currentTeamFilter === 'all' ? 'active' : 'inactive'}" onclick="setTeamFilter('all')">Todos os Times</button>`;
+
+        teams.forEach(team => {
+          const badgeUrl = TEAM_BADGES[team.toLowerCase()];
+          if (badgeUrl) {
+            teamContainer.innerHTML += `
+                <button class="team-badge-btn ${currentTeamFilter === team ? 'active' : ''}" onclick="setTeamFilter('${team}')" title="${team}">
+                   <img src="${badgeUrl}" alt="${team}">
+                </button>
+              `;
+          } else {
+            teamContainer.innerHTML += `
+                <button class="filter-btn ${currentTeamFilter === team ? 'active' : 'inactive'}" style="font-size: 11px; padding: 4px 10px;" onclick="setTeamFilter('${team}')">${team}</button>
+              `;
+          }
+        });
+        
+        teamContainer.style.display = 'flex';
+      };
+
+      window.setLigaFilter = (liga) => {
+        currentLigaFilter = liga;
+        window.currentPage = 1;
+
+        const ligaBtns = document.getElementById('liga-filters-container').querySelectorAll('button');
+        ligaBtns.forEach(btn => {
+          const onclickVal = btn.getAttribute('onclick');
+          if (onclickVal.includes(`'${liga}'`) || (liga === 'all' && onclickVal.includes("'all'"))) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.add('inactive');
+            btn.classList.remove('active');
+          }
+        });
+
+        renderGrid();
+      };
+
+      window.setTypeFilter = (type) => {
+        currentTypeFilter = type;
+        window.currentPage = 1;
+
+        // Update Type Filter Classes
+        const typeBtns = document.getElementById('type-filters-container').querySelectorAll('button');
+        typeBtns.forEach(btn => {
+          const onclickVal = btn.getAttribute('onclick');
+          if (onclickVal.includes(`'${type}'`) || (type === 'all' && onclickVal.includes("'all'"))) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.add('inactive');
+            btn.classList.remove('active');
+          }
+        });
+
+        renderGrid();
+      };
+
+      window.setTeamFilter = (team) => {
+        // Toggle behavior
+        if (currentTeamFilter === team) {
+          currentTeamFilter = 'all';
+        } else {
+          currentTeamFilter = team;
+        }
+        window.currentPage = 1;
+
+        // Update Team Filter Classes
+        const teamBtns = document.getElementById('team-filters-container').querySelectorAll('button');
+        teamBtns.forEach(btn => {
+          const onclickVal = btn.getAttribute('onclick');
+          if (onclickVal.includes(`'${currentTeamFilter}'`)) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        renderGrid();
+      };
+
+      window.setPage = (page) => {
+        window.currentPage = page;
+        // Scroll to top of grid
+        document.getElementById('category-grid').scrollIntoView({ behavior: 'smooth' });
+        renderGrid();
+      };
+
+      window.currentPage = parseInt(urlParams.get('page')) || 1;
+      window.filtersRendered = false;
+
+      renderGrid();
+    });
+  </script>
+</body>
+
+</html>
