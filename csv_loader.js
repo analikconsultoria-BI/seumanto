@@ -13,19 +13,19 @@
 
 async function loadCSVProducts() {
   // Check if already loaded and cached
-  const cached = localStorage.getItem('seumanto_csv_loaded_v41');
+  const cached = localStorage.getItem('seumanto_csv_loaded_v42');
   if (cached) {
     try {
       return JSON.parse(cached);
     } catch (e) {
-      localStorage.removeItem('seumanto_csv_loaded_v41');
+      localStorage.removeItem('seumanto_csv_loaded_v42');
     }
   }
 
   // Clear old caches
+  localStorage.removeItem('seumanto_csv_loaded_v41');
   localStorage.removeItem('seumanto_csv_loaded_v40');
   localStorage.removeItem('seumanto_csv_loaded_v39');
-  localStorage.removeItem('seumanto_csv_loaded_v38');
 
   try {
     const response = await fetch('produtos_completo.csv');
@@ -140,11 +140,16 @@ function parseCSV(csvText) {
       catInfo = { key: 'infantil', label: 'Infantil', vitrine: 'Linha Infantil' };
     } else if (isWomen) {
       catInfo = { key: 'feminino', label: 'Feminino', vitrine: 'Linha Feminina' };
-    } else if (team === 'Real Betis' || team === 'Real Madrid' || team === 'Barcelona') {
+    } else if (['Real Betis', 'Real Madrid', 'Barcelona', 'Atletico de Madrid', 'Atlético de Madrid', 'Atletico Madrid'].includes(team)) {
       catInfo = { key: 'laliga', label: 'La Liga', vitrine: 'La Liga' };
-    } else if (team === 'Arsenal' || team === 'Chelsea' || team === 'Liverpool' || team === 'Manchester City' || team === 'Manchester United' || team === 'Tottenham' || team === 'Aston Villa' || team === 'Newcastle' || team === 'Sunderland' || team === 'Birmingham') {
+    } else if (['Arsenal', 'Chelsea', 'Liverpool', 'Manchester City', 'Manchester United', 'Tottenham',
+                'Aston Villa', 'Newcastle', 'Sunderland', 'Birmingham', 'Everton', 'Fulham',
+                'Wolves', 'Wolverhampton', 'Derby County', 'Portsmouth', 'Sheffield Wednesday',
+                'Coventry', 'Preston', 'Queens Park Rangers', 'QPR'].includes(team)) {
       catInfo = { key: 'premier', label: 'Premier League', vitrine: 'Premier League' };
-    } else if (team === "O'Higgins" || team === 'Bayern de Munique' || team === 'Borussia Dortmund' || team === 'Juventus' || team === 'Milan' || team === 'Inter de Milão' || team === 'PSG' || team === 'Inter Miami' || team === 'Al Nassr') {
+    } else if (["O'Higgins", 'Bayern de Munique', 'Bayern Munich', 'Bayern', 'Borussia Dortmund',
+                'Juventus', 'Milan', 'Inter de Milão', 'PSG', 'Paris Saint Germain',
+                'Inter Miami', 'Al Nassr', 'Bayer Leverkusen'].includes(team)) {
       catInfo = { key: 'internacionais', label: 'Internacionais', vitrine: 'Internacionais' };
     }
 
@@ -214,7 +219,7 @@ function parseCSV(csvText) {
   // Cache in localStorage
   const result = { products, loaded: true };
   try {
-    localStorage.setItem('seumanto_csv_loaded_v41', JSON.stringify(result));
+    localStorage.setItem('seumanto_csv_loaded_v42', JSON.stringify(result));
   } catch (e) {
     // localStorage might be full, that's ok
     console.warn('Não foi possível cachear produtos no localStorage');
@@ -307,7 +312,8 @@ function parseTitle(titulo) {
   // Extract team name
   const knownTeams = [
     'Flamengo', 'Palmeiras', 'Corinthians', 'São Paulo', 'Sao Paulo', 'Santos', 'Vasco da Gama', 'Vasco', 'Fluminense', 'Botafogo', 'Grêmio', 'Gremio', 'Internacional', 'Cruzeiro', 'Atlético Mineiro', 'Atletico Mineiro', 'Atlético-MG', 'Atletico-MG', 'Bahia', 'Fortaleza', 'Athletico Paranaense', 'Athletico-PR', 'Athletico', 'Sport Recife', 'Bragantino', 'Chapecoense', 'Coritiba', 'Mirassol', 'Remo', 'Vitória', 'Vitoria', 'O\'Higgins',
-    'Real Madrid', 'Barcelona', 'Real Betis', 'Arsenal', 'Chelsea', 'Liverpool', 'Manchester City', 'Manchester United', 'Tottenham', 'Bayern de Munique', 'Bayern Munich', 'Bayern', 'Borussia Dortmund', 'Juventus', 'Milan', 'Inter de Milão', 'PSG', 'Paris Saint Germain', 'Inter Miami', 'Al Nassr', 'Aston Villa', 'Newcastle', 'Sunderland', 'Birmingham'
+    'Real Madrid', 'Barcelona', 'Real Betis', 'Arsenal', 'Chelsea', 'Liverpool', 'Manchester City', 'Manchester United', 'Tottenham', 'Bayern de Munique', 'Bayern Munich', 'Bayern', 'Borussia Dortmund', 'Juventus', 'Milan', 'Inter de Milão', 'PSG', 'Paris Saint Germain', 'Inter Miami', 'Al Nassr', 'Aston Villa', 'Newcastle', 'Sunderland', 'Birmingham',
+    'Everton', 'Fulham', 'Wolves', 'Wolverhampton', 'Derby County', 'Portsmouth', 'Sheffield Wednesday', 'Coventry', 'Preston', 'Queens Park Rangers', 'QPR', 'Bayer Leverkusen', 'Atletico de Madrid', 'Atlético de Madrid', 'Atletico Madrid', 'Ceará', 'Ceara', 'Vitória', 'Vitoria'
   ];
 
   let team = "";

@@ -362,8 +362,8 @@
     }
   </style>
 
-  <script src="csv_loader.js?v=32"></script>
-  <script src="app.js?v=32"></script>
+  <script src="csv_loader.js?v=33"></script>
+  <script src="app.js?v=33"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // Parse params manually to handle file:// protocols better
@@ -388,54 +388,13 @@
       let currentTeamFilter = 'all';
       let currentLigaFilter = 'all';
 
-      const TEAM_BADGES = {
-        'flamengo': 'assets/img/escudos/br/Flamengo_f.webp',
-        'corinthians': 'assets/img/escudos/br/Corinthians_f.webp',
-        'palmeiras': 'assets/img/escudos/br/palmeiras_f.webp',
-        'sao paulo': 'assets/img/escudos/br/Sao-Paulo_f.webp',
-        'são paulo': 'assets/img/escudos/br/Sao-Paulo_f.webp',
-        'vasco': 'assets/img/escudos/br/Vasco_f.webp',
-        'vasco da gama': 'assets/img/escudos/br/Vasco_f.webp',
-        'santos': 'assets/img/escudos/br/Santos.svg',
-        'gremio': 'assets/img/escudos/br/Gremio.webp',
-        'grêmio': 'assets/img/escudos/br/Gremio.webp',
-        'internacional': 'assets/img/escudos/br/Internacional_f.webp',
-        'cruzeiro': 'assets/img/escudos/br/Cruzeiro_f.webp',
-        'atletico mineiro': 'assets/img/escudos/br/Atletico-Mineiro_f.webp',
-        'atlético mineiro': 'assets/img/escudos/br/Atletico-Mineiro_f.webp',
-        'botafogo': 'assets/img/escudos/br/Botafogo_f.webp',
-        'fluminense': 'assets/img/escudos/br/Fluminense_f.webp',
-        'atletico paranaense': 'assets/img/escudos/br/Atletico-Paranaense_f.webp',
-        'bahia': 'assets/img/escudos/br/Bahia_f.webp',
-        'fortaleza': 'assets/img/escudos/br/Fortaleza_f.webp',
-        'coritiba': 'assets/img/escudos/br/Coritiba_f.webp',
-        'ceara': 'assets/img/escudos/br/Ceara_f.webp',
-        'ceará': 'assets/img/escudos/br/Ceara_f.webp',
-        'bragantino': 'assets/img/escudos/br/Bragantino_f.webp',
-        'atletico go': 'assets/img/escudos/br/Atletico-Go_f.webp',
-        'chapecoense': 'assets/img/escudos/br/Chapecoense_f.webp',
-        'mirassol': 'assets/img/escudos/br/Mirassol.svg',
-        'remo': 'assets/img/escudos/br/Remo.webp',
-        'vitória': 'assets/img/escudos/br/Vitoria.svg',
-        'vitoria': 'assets/img/escudos/br/Vitoria.svg',
-        'arsenal': 'assets/img/escudos/int/Arsenal_SF4x.webp',
-        'bayern': 'assets/img/escudos/int/Bayern_SF4x.webp',
-        'borussia': 'assets/img/escudos/int/Borussia_SF4x.webp',
-        'chelsea': 'assets/img/escudos/int/Chelsea_SF4x.webp',
-        'juventus': 'assets/img/escudos/int/Juventus_SF4x.webp',
-        'liverpool': 'assets/img/escudos/int/Liverpool_SF4x.webp',
-        'manchester city': 'assets/img/escudos/int/M-City_SF4x.webp',
-        'manchester united': 'assets/img/escudos/int/M-United_SF4x.webp',
-        'milan': 'assets/img/escudos/int/Milan_SF4x.webp',
-        'psg': 'assets/img/escudos/int/Psg_SF4x.webp',
-        'paris saint germain': 'assets/img/escudos/int/Psg_SF4x.webp',
-        'real madrid': 'assets/img/escudos/int/Real-Madrid_SF4x.webp',
-        'tottenham': 'assets/img/escudos/int/Tottenhan_SF4x.webp',
-      };
+      // Use the shared global TEAM_BADGES defined in app.js (window.TEAM_BADGES)
+      // Falls back to empty object if app.js hasn't loaded yet
+      const TEAM_BADGES = window.TEAM_BADGES || {};
 
       const renderGrid = () => {
         const productKeys = Object.keys(PRODUCTS);
-        // Espera infinitamente até o csv_loader/app.js?v=32 carregar os produtos
+        // Espera infinitamente até o csv_loader/app.js?v=33 carregar os produtos
         if (productKeys.length === 0) {
           setTimeout(renderGrid, 100);
           return;

@@ -3,6 +3,81 @@ const WA = "5519988369538";
 // Products will be loaded from CSV
 let PRODUCTS = {};
 
+// Shared team badge map — used by mega menu AND categoria.html filter
+window.TEAM_BADGES = {
+  // Brasileirão
+  'flamengo':             'assets/img/escudos/br/Flamengo_f.webp',
+  'palmeiras':            'assets/img/escudos/br/palmeiras_f.webp',
+  'corinthians':          'assets/img/escudos/br/Corinthians_f.webp',
+  'são paulo':            'assets/img/escudos/br/Sao-Paulo_f.webp',
+  'sao paulo':            'assets/img/escudos/br/Sao-Paulo_f.webp',
+  'santos':               'assets/img/escudos/br/Santos.svg',
+  'vasco da gama':        'assets/img/escudos/br/Vasco_f.webp',
+  'vasco':                'assets/img/escudos/br/Vasco_f.webp',
+  'fluminense':           'assets/img/escudos/br/Fluminense_f.webp',
+  'botafogo':             'assets/img/escudos/br/Botafogo_f.webp',
+  'grêmio':               'assets/img/escudos/br/Gremio.webp',
+  'gremio':               'assets/img/escudos/br/Gremio.webp',
+  'internacional':        'assets/img/escudos/br/Internacional_f.webp',
+  'cruzeiro':             'assets/img/escudos/br/Cruzeiro_f.webp',
+  'atlético mineiro':     'assets/img/escudos/br/Atletico-Mineiro_f.webp',
+  'atletico mineiro':     'assets/img/escudos/br/Atletico-Mineiro_f.webp',
+  'bahia':                'assets/img/escudos/br/Bahia_f.webp',
+  'fortaleza':            'assets/img/escudos/br/Fortaleza_f.webp',
+  'athletico paranaense': 'assets/img/escudos/br/Atletico-Paranaense_f.webp',
+  'bragantino':           'assets/img/escudos/br/Bragantino_f.webp',
+  'rb bragantino':        'assets/img/escudos/br/Bragantino_f.webp',
+  'red bull bragantino':  'assets/img/escudos/br/Bragantino_f.webp',
+  'chapecoense':          'assets/img/escudos/br/Chapecoense_f.webp',
+  'remo':                 'assets/img/escudos/br/Remo.webp',
+  'vitória':              'assets/img/escudos/br/Vitoria.svg',
+  'vitoria':              'assets/img/escudos/br/Vitoria.svg',
+  'mirassol':             'assets/img/escudos/br/Mirassol.svg',
+  'coritiba':             'assets/img/escudos/br/Coritiba_f.webp',
+  'ceará':                'assets/img/escudos/br/Ceara_f.webp',
+  'ceara':                'assets/img/escudos/br/Ceara_f.webp',
+  // Internacional
+  'real madrid':          'assets/img/escudos/int/Real-Madrid_SF4x.webp',
+  'barcelona':            'assets/img/escudos/int/Real-Madrid_SF4x.webp', // placeholder — add Barcelona escudo if available
+  'arsenal':              'assets/img/escudos/int/Arsenal_SF4x.webp',
+  'chelsea':              'assets/img/escudos/int/Chelsea_SF4x.webp',
+  'liverpool':            'assets/img/escudos/int/Liverpool_SF4x.webp',
+  'manchester city':      'assets/img/escudos/int/M-City_SF4x.webp',
+  'manchester united':    'assets/img/escudos/int/M-United_SF4x.webp',
+  'tottenham':            'assets/img/escudos/int/Tottenhan_SF4x.webp',
+  'bayern de munique':    'assets/img/escudos/int/Bayern_SF4x.webp',
+  'borussia dortmund':    'assets/img/escudos/int/Borussia_SF4x.webp',
+  'juventus':             'assets/img/escudos/int/Juventus_SF4x.webp',
+  'milan':                'assets/img/escudos/int/Milan_SF4x.webp',
+  'psg':                  'assets/img/escudos/int/Psg_SF4x.webp',
+};
+
+// Builds the navigation menu dynamically from loaded products
+// Only teams with real products appear; no phantom entries
+function buildMenuFromProducts(products) {
+  const ligaTeams = {};
+  Object.values(products).forEach(catArr => {
+    catArr.forEach(p => {
+      if (!p.team || !p.liga) return;
+      if (['Infantil', 'Feminino'].includes(p.liga)) return;
+      if (!ligaTeams[p.liga]) ligaTeams[p.liga] = new Set();
+      ligaTeams[p.liga].add(p.team);
+    });
+  });
+
+  const LIGA_ORDER = ['Brasileirão', 'La Liga', 'Premier League', 'Internacionais'];
+  const LIGA_ID    = { 'Brasileirão': 'brasileirao', 'La Liga': 'laliga', 'Premier League': 'premier', 'Internacionais': 'internacionais' };
+
+  return LIGA_ORDER
+    .filter(liga => ligaTeams[liga] && ligaTeams[liga].size > 0)
+    .map(liga => ({
+      id: LIGA_ID[liga] || liga.toLowerCase(),
+      name: liga,
+      active: true,
+      subs: [{ title: liga, items: [...ligaTeams[liga]].sort().join(', ') }]
+    }));
+}
+
 const DEFAULT_BANNERS = {
   home_desktop: "assets/img/SELEÇÃO BRASILEIRA.png",
   home_mobile: "assets/img/SELEÇÃO BRASILEIRA.png",
@@ -115,13 +190,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Render Mega Menu — site-config.json takes priority over localStorage
-  let megaFooterData = (siteConfig && siteConfig.megafooter) || JSON.parse(localStorage.getItem('seumanto_megafooter'));
-  // Força remoção de 'Outros Esportes' se ainda estiver lá
-  if (!megaFooterData || megaFooterData.some(c => c.id === 'outros')) {
-    megaFooterData = DEFAULT_MEGA_FOOTER;
-    localStorage.setItem('seumanto_megafooter', JSON.stringify(megaFooterData));
-  }
+  // Render Mega Menu — always built dynamically from loaded products
+  let megaFooterData = Object.keys(PRODUCTS).length > 0
+    ? buildMenuFromProducts(PRODUCTS)
+    : DEFAULT_MEGA_FOOTER;
 
   const desktopNav = document.getElementById('desktop-nav');
   const mobileNav = document.getElementById('mobile-nav');
@@ -142,9 +214,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         <ul class="space-y-3 text-sm text-gray-400">`;
       sub.items.split(',').forEach(item => {
         const i = item.trim();
-        if (i) {
-          desktopHtml += `<li><a href="categoria.html?v=${encodeURIComponent(i)}" class="hover:text-white transition-colors">${i}</a></li>`;
-        }
+        if (!i) return;
+        const badge = (window.TEAM_BADGES || {})[i.toLowerCase()];
+        const badgeImg = badge ? `<img src="${badge}" alt="${i}" class="w-5 h-5 object-contain rounded-full mr-2 inline-block">` : '';
+        desktopHtml += `<li><a href="categoria.html?v=${encodeURIComponent(i)}" class="hover:text-white transition-colors flex items-center">${badgeImg}${i}</a></li>`;
       });
       desktopHtml += `</ul></div>`;
     });
@@ -163,9 +236,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         <ul class="space-y-2 text-xs text-gray-600 pl-2 border-l border-gray-200">`;
       sub.items.split(',').forEach(item => {
         const i = item.trim();
-        if (i) {
-          mobileHtml += `<li><a href="categoria.html?v=${encodeURIComponent(i)}" class="block py-1 hover:text-[#D6AF68]">${i}</a></li>`;
-        }
+        if (!i) return;
+        const badge = (window.TEAM_BADGES || {})[i.toLowerCase()];
+        const badgeImg = badge ? `<img src="${badge}" alt="${i}" class="w-4 h-4 object-contain rounded-full mr-1 inline-block">` : '';
+        mobileHtml += `<li><a href="categoria.html?v=${encodeURIComponent(i)}" class="flex items-center py-1 hover:text-[#D6AF68]">${badgeImg}${i}</a></li>`;
       });
       mobileHtml += `</ul></div>`;
     });
