@@ -128,84 +128,54 @@
       </form>
     </div>
 
+    <!-- WHATSAPP -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-      <h2 class="font-sport text-2xl tracking-wide mb-4">Gerenciar Banners</h2>
-      <form id="banners-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h2 class="font-sport text-2xl tracking-wide mb-1">WhatsApp</h2>
+      <p class="text-xs text-gray-500 mb-4">N&uacute;mero de contato usado em todos os bot&otilde;es do site. S&oacute; n&uacute;meros, com DDI e DDD (ex: 5519988369538).</p>
+      <div class="flex gap-3 items-end">
+        <div class="flex-1 max-w-xs">
+          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">N&uacute;mero</label>
+          <input type="text" id="cfg-wa" placeholder="5519988369538" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+        </div>
+        <button onclick="saveWA()" type="button" class="bg-[#D6AF68] text-white font-bold py-2 px-5 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar</button>
+      </div>
+    </div>
 
-        <p class="text-xs text-gray-500 mb-4 md:col-span-2">Para criar um carrossel, digite um link de imagem por linha. Se quiser apenas uma imagem, preencha apenas uma linha.</p>
-        
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Home - Desktop (1920x600)</label>
-          <textarea id="b-home-d" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
+    <!-- BANNERS CARROSSEL HOME -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="font-sport text-2xl tracking-wide mb-1">Banners Home (Carrossel)</h2>
+      <p class="text-xs text-gray-500 mb-4">Um link de imagem por linha. Para carrossel, adicione v&aacute;rias linhas. Links de redirecionamento s&atilde;o opcionais.</p>
+      <form id="banners-form" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Desktop (1920x600) — 1 URL por linha</label>
+            <textarea id="b-home-d" rows="3" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Mobile (768x900) — 1 URL por linha</label>
+            <textarea id="b-home-m" rows="3" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
+          </div>
         </div>
         <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Home - Mobile (768x900)</label>
-          <textarea id="b-home-m" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
+          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Links de Redirecionamento (1 por linha, mesma ordem das imagens)</label>
+          <textarea id="b-home-l" rows="2" placeholder="categoria.html?v=Brasileirão&#10;categoria.html?v=Internacionais" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
         </div>
-        <div class="md:col-span-2 mb-2">
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Home - Links de Redirecionamento (Opcional, 1 por linha)</label>
-          <textarea id="b-home-l" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none" placeholder="Ex: categoria.html?v=Brasileirão"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Cat. Nacionais - Desktop (400x600)</label>
-          <textarea id="b-cat-nac-d" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Cat. Nacionais - Mobile (600x800)</label>
-          <textarea id="b-cat-nac-m" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Cat. Internacionais - Desktop</label>
-          <textarea id="b-cat-int-d" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Cat. Internacionais - Mobile</label>
-          <textarea id="b-cat-int-m" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Cat. Retr&ocirc; - Desktop</label>
-          <textarea id="b-cat-ret-d" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Cat. Retr&ocirc; - Mobile</label>
-          <textarea id="b-cat-ret-m" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Grades - Desktop (1440x250)</label>
-          <textarea id="b-grid-d" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Grades - Mobile (768x300)</label>
-          <textarea id="b-grid-m" rows="3"
-            class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-
-        <div class="md:col-span-2 mt-2">
-          <button type="submit"
-            class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors w-full md:w-auto">Salvar
-            Banners</button>
-        </div>
+        <button type="submit" class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Carrossel</button>
       </form>
     </div>
 
+    <!-- BANNERS CATEGORIAS (3 blocos) -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-      <h2 class="font-sport text-2xl tracking-wide mb-4">Gerenciar Mega Menu (Rodap&eacute;)</h2>
-      <p class="text-xs text-gray-500 mb-4">Ative ou desative as colunas do menu inferior e edite os times. O formato
-        deve ser "<b>T&iacute;tulo da Separa&ccedil;&atilde;o: Time 1, Time 2, Time 3</b>" (um por linha).</p>
+      <h2 class="font-sport text-2xl tracking-wide mb-1">Banners de Categoria (3 blocos)</h2>
+      <p class="text-xs text-gray-500 mb-5">Os 3 blocos de imagem da home. Configure a imagem e para onde cada um leva.</p>
+      <div id="cat-banners-editor" class="space-y-5"></div>
+      <button onclick="saveCatBanners()" type="button" class="mt-4 bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Blocos</button>
+    </div>
+
+    <!-- MEGA MENU / CATEGORIAS -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="font-sport text-2xl tracking-wide mb-1">Menu de Categorias e Ligas</h2>
+      <p class="text-xs text-gray-500 mb-5">Ative/desative cada categoria no menu de navega&ccedil;&atilde;o. Edite os times que aparecem em cada subcategoria.</p>
       <form id="mega-menu-form" class="space-y-6">
         <!-- Populated by JS -->
       </form>
@@ -535,54 +505,92 @@
     };
 
     let bannersData = JSON.parse(localStorage.getItem('seumanto_banners')) || DEFAULT_BANNERS;
-    if (!bannersData.cat_nac_d) {
-      bannersData = { ...DEFAULT_BANNERS, home_desktop: bannersData.home_desktop, home_mobile: bannersData.home_mobile, home_links: bannersData.home_links, grids_desktop: bannersData.grids_desktop, grids_mobile: bannersData.grids_mobile };
+    if (!bannersData.cat_nac_d) bannersData = { ...DEFAULT_BANNERS, ...bannersData };
+
+    // ── WHATSAPP ──────────────────────────────────────────
+    let waData = localStorage.getItem('seumanto_config_wa') || '5519988369538';
+    document.getElementById('cfg-wa').value = waData;
+
+    function saveWA() {
+      waData = document.getElementById('cfg-wa').value.trim().replace(/\D/g, '');
+      localStorage.setItem('seumanto_config_wa', waData);
+      alert('WhatsApp salvo: ' + waData);
     }
 
-    function renderBannersForm() {
-      // Helper to join array or string with newlines
-      const joinLines = (val) => Array.isArray(val) ? val.join('\n') : (val || '');
-      
-      document.getElementById('b-home-d').value = joinLines(bannersData.home_desktop);
-      document.getElementById('b-home-m').value = joinLines(bannersData.home_mobile);
-      document.getElementById('b-home-l').value = joinLines(bannersData.home_links);
+    // ── BANNERS CARROSSEL HOME ────────────────────────────
+    function joinLines(val) { return Array.isArray(val) ? val.join('\n') : (val || ''); }
+    function getLines(id) { return document.getElementById(id).value.split('\n').map(l => l.trim()).filter(l => l); }
 
-      document.getElementById('b-cat-nac-d').value = joinLines(bannersData.cat_nac_d);
-      document.getElementById('b-cat-nac-m').value = joinLines(bannersData.cat_nac_m);
-      document.getElementById('b-cat-int-d').value = joinLines(bannersData.cat_int_d);
-      document.getElementById('b-cat-int-m').value = joinLines(bannersData.cat_int_m);
-      document.getElementById('b-cat-ret-d').value = joinLines(bannersData.cat_ret_d);
-      document.getElementById('b-cat-ret-m').value = joinLines(bannersData.cat_ret_m);
-
-      document.getElementById('b-grid-d').value = joinLines(bannersData.grids_desktop);
-      document.getElementById('b-grid-m').value = joinLines(bannersData.grids_mobile);
-    }
+    document.getElementById('b-home-d').value = joinLines(bannersData.home_desktop);
+    document.getElementById('b-home-m').value = joinLines(bannersData.home_mobile);
+    document.getElementById('b-home-l').value = joinLines(bannersData.home_links);
 
     document.getElementById('banners-form').addEventListener('submit', function (e) {
       e.preventDefault();
-      
-      const getLines = (id) => document.getElementById(id).value.split('\n').map(l => l.trim()).filter(l => l);
-
       bannersData.home_desktop = getLines('b-home-d');
-      bannersData.home_mobile = getLines('b-home-m');
-      bannersData.home_links = document.getElementById('b-home-l').value.split('\n').map(l => l.trim());
-
-      bannersData.cat_nac_d = getLines('b-cat-nac-d');
-      bannersData.cat_nac_m = getLines('b-cat-nac-m');
-      bannersData.cat_int_d = getLines('b-cat-int-d');
-      bannersData.cat_int_m = getLines('b-cat-int-m');
-      bannersData.cat_ret_d = getLines('b-cat-ret-d');
-      bannersData.cat_ret_m = getLines('b-cat-ret-m');
-
-      bannersData.grids_desktop = getLines('b-grid-d');
-      bannersData.grids_mobile = getLines('b-grid-m');
-
+      bannersData.home_mobile  = getLines('b-home-m');
+      bannersData.home_links   = document.getElementById('b-home-l').value.split('\n').map(l => l.trim());
       localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
-      alert('Banners salvos com sucesso!');
+      alert('Carrossel home salvo!');
     });
 
+    // ── BANNERS DE CATEGORIA (3 blocos) ──────────────────
+    const DEFAULT_CAT_BANNERS = [
+      { label: 'Brasileirão',   img_d: bannersData.cat_nac_d || '', img_m: bannersData.cat_nac_m || '', link: 'categoria.html?v=Brasileir%C3%A3o' },
+      { label: 'Internacionais',img_d: bannersData.cat_int_d || '', img_m: bannersData.cat_int_m || '', link: 'categoria.html?v=Internacionais' },
+      { label: 'La Liga',       img_d: bannersData.cat_ret_d || '', img_m: bannersData.cat_ret_m || '', link: 'categoria.html?v=La%20Liga' }
+    ];
+    let catBannersData = JSON.parse(localStorage.getItem('seumanto_cat_banners')) || DEFAULT_CAT_BANNERS;
+    if (catBannersData.length < 3) catBannersData = DEFAULT_CAT_BANNERS;
+
+    function renderCatBannersEditor() {
+      const el = document.getElementById('cat-banners-editor');
+      el.innerHTML = catBannersData.map((b, i) => `
+        <div class="border border-gray-200 rounded-xl p-4 bg-gray-50">
+          <h3 class="font-bold text-sm text-[#D6AF68] uppercase tracking-wider mb-3">Bloco ${i+1}</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Rótulo (nome exibido)</label>
+              <input type="text" id="cb-label-${i}" value="${b.label}" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Link (para onde vai ao clicar)</label>
+              <input type="text" id="cb-link-${i}" value="${b.link}" placeholder="categoria.html?v=Brasileirão" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Imagem Desktop (URL)</label>
+              <input type="text" id="cb-imgd-${i}" value="${joinLines(b.img_d)}" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Imagem Mobile (URL)</label>
+              <input type="text" id="cb-imgm-${i}" value="${joinLines(b.img_m)}" placeholder="https://... (opcional, usa desktop se vazio)" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveCatBanners() {
+      catBannersData = catBannersData.map((b, i) => ({
+        label:  document.getElementById(`cb-label-${i}`).value,
+        link:   document.getElementById(`cb-link-${i}`).value,
+        img_d:  document.getElementById(`cb-imgd-${i}`).value,
+        img_m:  document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
+      }));
+      // Sync back to bannersData for compatibility
+      bannersData.cat_nac_d = catBannersData[0].img_d;
+      bannersData.cat_nac_m = catBannersData[0].img_m;
+      bannersData.cat_int_d = catBannersData[1].img_d;
+      bannersData.cat_int_m = catBannersData[1].img_m;
+      bannersData.cat_ret_d = catBannersData[2].img_d;
+      bannersData.cat_ret_m = catBannersData[2].img_m;
+      localStorage.setItem('seumanto_cat_banners', JSON.stringify(catBannersData));
+      localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
+      alert('Blocos de categoria salvos!');
+    }
+
     renderTable();
-    renderBannersForm();
+    renderCatBannersEditor();
     initCategories();
     renderVitrinesManager();
 
@@ -593,20 +601,24 @@
       container.innerHTML = '';
       megaFooterData.forEach((cat, index) => {
         let textValue = cat.subs.map(s => `${s.title}: ${s.items}`).join('\n');
+        const isActive = cat.active !== false;
         container.innerHTML += `
-        <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+        <div class="border-2 rounded-xl p-4 transition-all ${isActive ? 'border-[#D6AF68] bg-amber-50' : 'border-gray-200 bg-gray-50 opacity-60'}">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="font-bold text-gray-800 text-lg">${cat.name}</h3>
-            <label class="flex items-center gap-2 text-sm font-semibold cursor-pointer">
-              <input type="checkbox" id="cat-active-${index}" ${cat.active ? 'checked' : ''} class="w-4 h-4 text-[#D6AF68] focus:ring-[#D6AF68]">
-              Mostrar no site
+            <h3 class="font-bold text-gray-800 text-base">${cat.name}</h3>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="cat-active-${index}" ${isActive ? 'checked' : ''} onchange="this.closest('.border-2').className='border-2 rounded-xl p-4 transition-all '+(this.checked?'border-[#D6AF68] bg-amber-50':'border-gray-200 bg-gray-50 opacity-60')" class="sr-only peer">
+              <div class="w-10 h-5 bg-gray-300 peer-checked:bg-[#D6AF68] rounded-full peer transition-colors"></div>
+              <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
+              <span class="ml-12 text-xs font-semibold text-gray-600">${isActive ? 'Ativo' : 'Oculto'}</span>
             </label>
           </div>
-          <textarea id="cat-text-${index}" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none" placeholder="Ex: Sul: Grêmio, Internacional, Athletico...">${textValue}</textarea>
+          <p class="text-xs text-gray-500 mb-2">Formato: <code class="bg-white px-1 rounded">Título: Time1, Time2, Time3</code> — uma subseção por linha</p>
+          <textarea id="cat-text-${index}" rows="4" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none bg-white" placeholder="Ex: Sul: Grêmio, Internacional, Athletico...">${textValue}</textarea>
         </div>
       `;
       });
-      container.innerHTML += `<div class="pt-2"><button type="submit" class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors w-full md:w-auto">Salvar Menu</button></div>`;
+      container.innerHTML += `<div class="pt-2"><button type="submit" class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors w-full md:w-auto">Salvar Menu de Categorias</button></div>`;
     }
 
     document.getElementById('mega-menu-form').addEventListener('submit', function (e) {
@@ -633,10 +645,14 @@
     // EXPORTAR CONFIGURAÇÃO → site-config.json
     // =============================================
     document.getElementById('export-config-btn').addEventListener('click', function() {
-      const bannersData = JSON.parse(localStorage.getItem('seumanto_banners')) || {};
-      const megaData = JSON.parse(localStorage.getItem('seumanto_megafooter')) || [];
+      const bannersData  = JSON.parse(localStorage.getItem('seumanto_banners')) || {};
+      const megaData     = JSON.parse(localStorage.getItem('seumanto_megafooter')) || [];
+      const catBanners   = JSON.parse(localStorage.getItem('seumanto_cat_banners')) || DEFAULT_CAT_BANNERS;
+      const waNumber     = localStorage.getItem('seumanto_config_wa') || '5519988369538';
 
       const config = {
+        whatsapp: waNumber,
+        cat_banners: catBanners,
         banners: bannersData,
         megafooter: megaData
       };

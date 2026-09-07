@@ -1,4 +1,10 @@
 {
+  "whatsapp": "5519988369538",
+  "cat_banners": [
+    { "label": "Brasileirão", "link": "categoria.html?v=Brasileir%C3%A3o" },
+    { "label": "Internacionais", "link": "categoria.html?v=Internacionais" },
+    { "label": "La Liga", "link": "categoria.html?v=La%20Liga" }
+  ],
   "banners": {
     "home_desktop": "assets/img/SELEÇÃO BRASILEIRA.png",
     "home_mobile": "assets/img/SELEÇÃO BRASILEIRA.png",

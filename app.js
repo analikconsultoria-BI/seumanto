@@ -1,4 +1,4 @@
-const WA = "5511999999999";
+const WA = "5519988369538";
 
 // Products will be loaded from CSV
 let PRODUCTS = {};
@@ -74,16 +74,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Set banner images
-  const setBanner = (id, src) => { const el = document.getElementById(id); if (el) el.src = src; };
+  // Apply WhatsApp number from config
+  const waNumber = (siteConfig && siteConfig.whatsapp) || WA;
+  document.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
+    a.href = a.href.replace(/wa\.me\/\d+/, 'wa.me/' + waNumber);
+  });
+
+  // Apply category banner links + images from config
+  const catBannerImgIds = [
+    ['banner-cat-nac-d', 'banner-cat-nac-m'],
+    ['banner-cat-int-d', 'banner-cat-int-m'],
+    ['banner-cat-ret-d', 'banner-cat-ret-m'],
+  ];
+  if (siteConfig && siteConfig.cat_banners) {
+    siteConfig.cat_banners.forEach((b, i) => {
+      const linkEl = document.getElementById('cat-banner-link-' + i);
+      if (linkEl && b.link) linkEl.href = b.link;
+      const [dId, mId] = catBannerImgIds[i] || [];
+      if (b.img_d && dId) { const el = document.getElementById(dId); if (el) el.src = b.img_d; }
+      if (b.img_m && mId) { const el = document.getElementById(mId); if (el) el.src = b.img_m; }
+    });
+  }
+
+  // Set banner images (carousel)
+  const setBanner = (id, src) => { const el = document.getElementById(id); if (el && src) el.src = src; };
   setBanner('banner-home-desktop', BANNERS.home_desktop);
   setBanner('banner-home-mobile', BANNERS.home_mobile);
-  setBanner('banner-cat-nac-d', BANNERS.cat_nac_d);
-  setBanner('banner-cat-nac-m', BANNERS.cat_nac_m);
-  setBanner('banner-cat-int-d', BANNERS.cat_int_d);
-  setBanner('banner-cat-int-m', BANNERS.cat_int_m);
-  setBanner('banner-cat-ret-d', BANNERS.cat_ret_d);
-  setBanner('banner-cat-ret-m', BANNERS.cat_ret_m);
 
   // === LOAD CSV PRODUCTS ===
   if (typeof loadCSVProducts === 'function') {
