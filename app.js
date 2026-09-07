@@ -214,27 +214,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   let mobileHtml = '';
 
   megaFooterData.filter(c => c.active).forEach(cat => {
+    // Count total teams to decide column layout
+    const allItems = cat.subs.flatMap(s => s.items.split(',').map(i => i.trim()).filter(Boolean));
+    const cols = allItems.length <= 8 ? 1 : allItems.length <= 16 ? 2 : 3;
+    const colStyle = `column-count:${cols};column-gap:2rem;`;
+
     desktopHtml += `
       <div class="nav-mega-item h-full flex items-center px-4 cursor-pointer hover:bg-gray-800 transition-colors" style="position:relative;">
         <span class="nav-link !normal-case tracking-normal">${cat.name} <span class="text-[10px] ml-1">&#9662;</span></span>
-        <div class="nav-mega-dropdown" style="display:none;position:fixed;left:0;right:0;top:var(--header-bottom,64px);z-index:9999;">
-          <div class="bg-[#111] text-white shadow-2xl border-t border-[#333]">
-            <div class="max-w-7xl mx-auto p-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        <div class="nav-mega-dropdown" style="display:none;position:absolute;left:0;top:100%;z-index:9999;min-width:200px;">
+          <div class="bg-[#111] text-white shadow-2xl border border-[#333] rounded-b-lg mt-0" style="padding:1.25rem 1.5rem;">
     `;
     cat.subs.forEach(sub => {
       desktopHtml += `<div>
-        <h4 class="font-bold text-sm mb-4 text-[#D6AF68] uppercase tracking-wider">${sub.title}</h4>
-        <ul class="space-y-3 text-sm text-gray-400">`;
+        <h4 class="font-bold text-xs mb-3 text-[#D6AF68] uppercase tracking-wider">${sub.title}</h4>
+        <ul style="${colStyle}">`;
       sub.items.split(',').forEach(item => {
         const i = item.trim();
         if (!i) return;
         const badge = (window.TEAM_BADGES || {})[i.toLowerCase()];
-        const badgeImg = badge ? `<img src="${badge}" alt="${i}" class="w-5 h-5 object-contain rounded-full mr-2 inline-block">` : '';
-        desktopHtml += `<li><a href="categoria.html?v=${encodeURIComponent(i)}" class="hover:text-white transition-colors flex items-center">${badgeImg}${i}</a></li>`;
+        const badgeImg = badge ? `<img src="${badge}" alt="${i}" style="width:18px;height:18px;object-fit:contain;display:inline-block;vertical-align:middle;margin-right:6px;border-radius:50%;">` : '';
+        desktopHtml += `<li style="break-inside:avoid;padding:3px 0;"><a href="categoria.html?v=${encodeURIComponent(i)}" style="color:#9ca3af;font-size:13px;display:flex;align-items:center;white-space:nowrap;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#9ca3af'">${badgeImg}${i}</a></li>`;
       });
       desktopHtml += `</ul></div>`;
     });
-    desktopHtml += `</div></div></div></div>`;
+    desktopHtml += `</div></div></div>`;
 
     mobileHtml += `
       <div class="border-b border-gray-100 last:border-0">
@@ -262,26 +266,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (desktopNav) desktopNav.innerHTML = desktopHtml;
   if (mobileNav) mobileNav.innerHTML = mobileHtml;
 
-  // JS-controlled hover for mega nav (prevents gap-closing bug)
+  // JS-controlled hover for dropdown nav (prevents gap-closing bug)
   desktopNav && desktopNav.querySelectorAll('.nav-mega-item').forEach(item => {
     const dropdown = item.querySelector('.nav-mega-dropdown');
     let closeTimer = null;
     const open = () => { clearTimeout(closeTimer); dropdown.style.display = 'block'; };
-    const close = () => { closeTimer = setTimeout(() => { dropdown.style.display = 'none'; }, 120); };
+    const close = () => { closeTimer = setTimeout(() => { dropdown.style.display = 'none'; }, 150); };
     item.addEventListener('mouseenter', open);
     item.addEventListener('mouseleave', close);
     dropdown.addEventListener('mouseenter', open);
     dropdown.addEventListener('mouseleave', close);
-    // Set --header-bottom CSS var based on header height
-    const header = document.querySelector('header');
-    if (header) {
-      const rect = header.getBoundingClientRect();
-      dropdown.style.setProperty('top', rect.bottom + 'px');
-      item.addEventListener('mouseenter', () => {
-        const r = header.getBoundingClientRect();
-        dropdown.style.top = r.bottom + 'px';
-      });
-    }
   });
 
   // Fill Footer Categories
