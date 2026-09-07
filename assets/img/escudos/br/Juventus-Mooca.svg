@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" width="100" height="110">
+  <!-- Shield shape -->
+  <path d="M50 4 L96 20 L96 60 Q96 90 50 106 Q4 90 4 60 L4 20 Z" fill="#CC0000" stroke="#1a1a1a" stroke-width="3"/>
+  <!-- Black vertical stripe (center) -->
+  <path d="M50 4 L96 20 L96 60 Q96 90 50 106 Q4 90 4 60 L4 20 Z" fill="none"/>
+  <clipPath id="shield">
+    <path d="M50 4 L96 20 L96 60 Q96 90 50 106 Q4 90 4 60 L4 20 Z"/>
+  </clipPath>
+  <rect x="38" y="0" width="24" height="115" fill="#1a1a1a" clip-path="url(#shield)"/>
+  <!-- White border band at top -->
+  <path d="M50 4 L96 20 L96 30 L4 30 L4 20 Z" fill="white" opacity="0.15" clip-path="url(#shield)"/>
+  <!-- Text -->
+  <text x="50" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="white" letter-spacing="0.5">JUVENTUS</text>
+  <text x="50" y="73" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="white" letter-spacing="1">MOOCA</text>
+  <!-- Stars / decoration -->
+  <circle cx="50" cy="32" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.8"/>
+  <text x="50" y="36" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="white">★</text>
+  <!-- Shield outline -->
+  <path d="M50 4 L96 20 L96 60 Q96 90 50 106 Q4 90 4 60 L4 20 Z" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
+</svg>

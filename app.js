@@ -29,6 +29,8 @@ window.TEAM_BADGES = {
   'coritiba':               'assets/img/escudos/br/Coritiba_f.webp',
   'ceará':                  'assets/img/escudos/br/Ceara_f.webp',
   'atlético go':            'assets/img/escudos/br/Atletico-GO.png',
+  'juventus da mooca':      'assets/img/escudos/br/Juventus-Mooca.svg',
+  'juventus mooca':         'assets/img/escudos/br/Juventus-Mooca.svg',
   // La Liga
   'real madrid':            'assets/img/escudos/int/Real-Madrid_SF4x.webp',
   'barcelona':              'assets/img/escudos/int/Barcelona.png',

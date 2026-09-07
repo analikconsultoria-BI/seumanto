@@ -13,7 +13,7 @@
 
 async function loadCSVProducts() {
   // Check if already loaded and cached
-  const cached = localStorage.getItem('seumanto_csv_loaded_v43');
+  const cached = localStorage.getItem('seumanto_csv_loaded_v44');
   if (cached) {
     try {
       return JSON.parse(cached);
@@ -220,7 +220,7 @@ function parseCSV(csvText) {
   // Cache in localStorage
   const result = { products, loaded: true };
   try {
-    localStorage.setItem('seumanto_csv_loaded_v43', JSON.stringify(result));
+    localStorage.setItem('seumanto_csv_loaded_v44', JSON.stringify(result));
   } catch (e) {
     // localStorage might be full, that's ok
     console.warn('Não foi possível cachear produtos no localStorage');
@@ -327,6 +327,7 @@ function parseTitle(titulo) {
     'Grêmio', 'Gremio',
     'Vitória', 'Vitoria',
     'Ceará', 'Ceara',
+    'Juventus da Mooca', 'Juventus Mooca',
     'Flamengo', 'Palmeiras', 'Corinthians', 'Santos', 'Fluminense', 'Botafogo',
     'Internacional', 'Cruzeiro', 'Bahia', 'Fortaleza',
     'Sport Recife', 'Chapecoense', 'Coritiba', 'Mirassol', 'Remo',
