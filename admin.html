@@ -211,6 +211,18 @@
       </form>
     </div>
 
+    <!-- EXPORTAR CONFIG -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h2 class="font-sport text-xl tracking-wide text-amber-900">Publicar Altera&ccedil;&otilde;es no Site</h2>
+        <p class="text-sm text-amber-700 mt-1">Ap&oacute;s salvar banners e menu acima, clique para baixar o arquivo de configura&ccedil;&atilde;o. Substitua o <code class="bg-amber-100 px-1 rounded">site-config.json</code> na pasta do projeto e fa&ccedil;a git commit + push.</p>
+      </div>
+      <button id="export-config-btn" type="button"
+        class="flex-shrink-0 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-sm whitespace-nowrap">
+        &#8681; Exportar site-config.json
+      </button>
+    </div>
+
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <h2 class="font-sport text-2xl tracking-wide mb-4">Vitrines da Home</h2>
       <p class="text-xs text-gray-500 mb-4">Configure os carross&eacute;is da p&aacute;gina inicial. Digite o nome de
@@ -616,6 +628,29 @@
     });
 
     renderMegaMenuForm();
+
+    // =============================================
+    // EXPORTAR CONFIGURAÇÃO → site-config.json
+    // =============================================
+    document.getElementById('export-config-btn').addEventListener('click', function() {
+      const bannersData = JSON.parse(localStorage.getItem('seumanto_banners')) || {};
+      const megaData = JSON.parse(localStorage.getItem('seumanto_megafooter')) || [];
+
+      const config = {
+        banners: bannersData,
+        megafooter: megaData
+      };
+
+      const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'site-config.json';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      alert('✅ site-config.json baixado!\n\nAgora substitua o arquivo site-config.json na pasta do projeto e faça commit + push para publicar as alterações.');
+    });
   </script>
 
 </body>

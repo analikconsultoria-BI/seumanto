@@ -54,16 +54,26 @@ const DEFAULT_MEGA_FOOTER = [
   }
 ];
 
-let BANNERS = JSON.parse(localStorage.getItem('seumanto_banners'));
-if (!BANNERS || BANNERS.grids_desktop?.includes('image.png') || !BANNERS.cat_nac_d) {
-  BANNERS = DEFAULT_BANNERS;
-  localStorage.setItem('seumanto_banners', JSON.stringify(BANNERS));
-} else if (!BANNERS.cat_nac_d) {
-  BANNERS = { ...DEFAULT_BANNERS, home_desktop: BANNERS.home_desktop, home_mobile: BANNERS.home_mobile, grids_desktop: BANNERS.grids_desktop, grids_mobile: BANNERS.grids_mobile };
-  localStorage.setItem('seumanto_banners', JSON.stringify(BANNERS));
-}
+let BANNERS = null; // Loaded async inside DOMContentLoaded
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Try to load config from site-config.json (deployed config), fall back to localStorage then defaults
+  let siteConfig = null;
+  try {
+    const r = await fetch('site-config.json?' + Date.now());
+    if (r.ok) siteConfig = await r.json();
+  } catch(e) {}
+
+  if (siteConfig && siteConfig.banners) {
+    BANNERS = siteConfig.banners;
+    localStorage.setItem('seumanto_banners', JSON.stringify(BANNERS));
+  } else {
+    BANNERS = JSON.parse(localStorage.getItem('seumanto_banners'));
+    if (!BANNERS || BANNERS.grids_desktop?.includes('image.png') || !BANNERS.cat_nac_d) {
+      BANNERS = DEFAULT_BANNERS;
+    }
+  }
+
   // Set banner images
   const setBanner = (id, src) => { const el = document.getElementById(id); if (el) el.src = src; };
   setBanner('banner-home-desktop', BANNERS.home_desktop);
@@ -89,8 +99,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Render Mega Menu
-  let megaFooterData = JSON.parse(localStorage.getItem('seumanto_megafooter'));
+  // Render Mega Menu — site-config.json takes priority over localStorage
+  let megaFooterData = (siteConfig && siteConfig.megafooter) || JSON.parse(localStorage.getItem('seumanto_megafooter'));
   // Força remoção de 'Outros Esportes' se ainda estiver lá
   if (!megaFooterData || megaFooterData.some(c => c.id === 'outros')) {
     megaFooterData = DEFAULT_MEGA_FOOTER;
@@ -303,23 +313,23 @@ function cardHTML(p) {
   let priceHtml = '';
   if (priceInfo.hasPrice) {
     priceHtml = `
-      <div class="flex items-center justify-center gap-2 mb-1">
-        <span class="text-[11px] text-gray-500 line-through">${priceInfo.oldStr}</span>
-        <span class="text-xl font-extrabold text-black tracking-tight">${priceInfo.baseStr}</span>
+      <div class="mb-1">
+        <span class="text-[11px] text-gray-500 line-through whitespace-nowrap">${priceInfo.oldStr}</span>
       </div>
-      
-      <div class="text-xs font-bold text-[#10b981] mb-2 flex items-center justify-center gap-1">
+      <div class="text-xl font-extrabold text-black tracking-tight whitespace-nowrap mb-1">${priceInfo.baseStr}</div>
+
+      <div class="text-xs font-bold text-[#10b981] mb-2 flex items-center justify-center gap-1 whitespace-nowrap">
         ${priceInfo.pixStr} com Pix
         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
       </div>
-      
-      <div class="text-[11px] text-gray-800 font-semibold">
+
+      <div class="text-[11px] text-gray-800 font-semibold whitespace-nowrap">
         ${priceInfo.instStr}
       </div>
     `;
   } else {
     priceHtml = `
-      <div class="flex items-center justify-center gap-2 mb-1 mt-3">
+      <div class="mt-3 mb-1">
         <span class="text-xl font-extrabold text-black tracking-tight">Consultar Preço</span>
       </div>
       <div class="text-[11px] text-[#10b981] font-bold mt-2">Ver via WhatsApp</div>
@@ -330,8 +340,8 @@ function cardHTML(p) {
     <div style="position:relative;overflow:hidden;">
       <img src="${p.img}" alt="${p.name}" loading="lazy">
     </div>
-    <div class="px-3 py-5 text-center bg-white flex flex-col items-center border-t border-gray-100">
-      <p class="text-[13px] text-gray-800 leading-snug mb-4 font-medium h-[40px] flex items-center justify-center line-clamp-2">
+    <div class="px-3 py-4 text-center bg-white flex flex-col items-center border-t border-gray-100">
+      <p class="text-[13px] text-gray-800 leading-snug mb-3 font-medium line-clamp-2 text-center w-full min-h-[40px]">
         ${p.name}
       </p>
       ${priceHtml}

@@ -362,8 +362,8 @@
     }
   </style>
 
-  <script src="csv_loader.js?v=31"></script>
-  <script src="app.js?v=31"></script>
+  <script src="csv_loader.js?v=32"></script>
+  <script src="app.js?v=32"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // Parse params manually to handle file:// protocols better
@@ -435,7 +435,7 @@
 
       const renderGrid = () => {
         const productKeys = Object.keys(PRODUCTS);
-        // Espera infinitamente até o csv_loader/app.js?v=31 carregar os produtos
+        // Espera infinitamente até o csv_loader/app.js?v=32 carregar os produtos
         if (productKeys.length === 0) {
           setTimeout(renderGrid, 100);
           return;
