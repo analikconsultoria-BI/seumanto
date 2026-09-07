@@ -13,19 +13,19 @@
 
 async function loadCSVProducts() {
   // Check if already loaded and cached
-  const cached = localStorage.getItem('seumanto_csv_loaded_v40');
+  const cached = localStorage.getItem('seumanto_csv_loaded_v41');
   if (cached) {
     try {
       return JSON.parse(cached);
     } catch (e) {
-      localStorage.removeItem('seumanto_csv_loaded_v40');
+      localStorage.removeItem('seumanto_csv_loaded_v41');
     }
   }
-  
+
   // Clear old caches
+  localStorage.removeItem('seumanto_csv_loaded_v40');
   localStorage.removeItem('seumanto_csv_loaded_v39');
   localStorage.removeItem('seumanto_csv_loaded_v38');
-  localStorage.removeItem('seumanto_csv_loaded_v32');
 
   try {
     const response = await fetch('produtos_completo.csv');
@@ -77,12 +77,12 @@ function parseCSV(csvText) {
       return;
     }
 
-    // Converte a URL do Yupoo para o caminho do arquivo local baixado
+    // Converte a URL do Yupoo para a URL do Cloudinary
     const rawImgUrl = imagem;
     let imgUrl = rawImgUrl;
     if (rawImgUrl.includes('photo.yupoo.com')) {
       const filename = rawImgUrl.replace('https://photo.yupoo.com/minkang/', '').replace(/\//g, '_');
-      imgUrl = 'assets/catalog/' + filename + '?v=1'; // Cache buster for replaced 75x75 thumbnails
+      imgUrl = 'https://res.cloudinary.com/n5kxtpz3/image/upload/catalog/' + filename;
     }
 
     const order = parseInt(ordem_imagem.trim());
@@ -214,7 +214,7 @@ function parseCSV(csvText) {
   // Cache in localStorage
   const result = { products, loaded: true };
   try {
-    localStorage.setItem('seumanto_csv_loaded_v40', JSON.stringify(result));
+    localStorage.setItem('seumanto_csv_loaded_v41', JSON.stringify(result));
   } catch (e) {
     // localStorage might be full, that's ok
     console.warn('Não foi possível cachear produtos no localStorage');

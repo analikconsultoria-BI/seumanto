@@ -1,2 +1,4 @@
 node_modules
 assets/catalog/
+.env
+cloudinary_upload_progress.json
