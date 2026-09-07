@@ -362,8 +362,8 @@
     }
   </style>
 
-  <script src="csv_loader.js?v=36"></script>
-  <script src="app.js?v=36"></script>
+  <script src="csv_loader.js?v=37"></script>
+  <script src="app.js?v=37"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // Parse params manually to handle file:// protocols better
@@ -394,7 +394,7 @@
 
       const renderGrid = () => {
         const productKeys = Object.keys(PRODUCTS);
-        // Espera infinitamente até o csv_loader/app.js?v=36 carregar os produtos
+        // Espera infinitamente até o csv_loader/app.js?v=37 carregar os produtos
         if (productKeys.length === 0) {
           setTimeout(renderGrid, 100);
           return;
@@ -438,17 +438,16 @@
           return searchTokens.every(token => searchableText.includes(token));
         });
 
-        // Initialize filters UI once
-        if (!window.filtersRendered) {
-          renderFilters(baseItems);
-          window.filtersRendered = true;
-        }
+        // Apply liga filter first to determine available teams
+        let ligaItems = currentLigaFilter !== 'all'
+          ? baseItems.filter(p => p.liga === currentLigaFilter)
+          : baseItems;
 
-        // Apply filters
-        let items = baseItems;
-        if (currentLigaFilter !== 'all') {
-          items = items.filter(p => p.liga === currentLigaFilter);
-        }
+        // Always re-render filters (liga buttons from all, team badges from liga-filtered)
+        renderFilters(baseItems, ligaItems);
+
+        // Apply remaining filters
+        let items = ligaItems;
         if (currentTypeFilter !== 'all') {
           items = items.filter(p => p.type === currentTypeFilter);
         }
@@ -512,14 +511,17 @@
         }
       };
 
-      const renderFilters = (baseItems) => {
+      const renderFilters = (baseItems, teamSourceItems) => {
+        if (!teamSourceItems) teamSourceItems = baseItems;
         let types = [];
         let teams = [];
         let ligas = [];
         baseItems.forEach(p => {
           if (p.type && !types.includes(p.type)) types.push(p.type);
-          if (p.team && !teams.includes(p.team)) teams.push(p.team);
           if (p.liga && !ligas.includes(p.liga) && p.liga !== p.category) ligas.push(p.liga);
+        });
+        teamSourceItems.forEach(p => {
+          if (p.team && !teams.includes(p.team)) teams.push(p.team);
         });
         types.sort();
         teams.sort();
@@ -577,6 +579,7 @@
 
       window.setLigaFilter = (liga) => {
         currentLigaFilter = liga;
+        currentTeamFilter = 'all'; // reset team when liga changes
         window.currentPage = 1;
 
         const ligaBtns = document.getElementById('liga-filters-container').querySelectorAll('button');
