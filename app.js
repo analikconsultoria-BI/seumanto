@@ -102,8 +102,7 @@ const DEFAULT_BANNERS = {
   cat_int_m: "assets/img/INTERNACIONAL.png",
   cat_ret_d: "assets/img/RETRO.png",
   cat_ret_m: "assets/img/RETRO.png",
-  grids_desktop: "https://placehold.co/1440x250/D6AF68/111?text=Banner+Entre+Grades+Desktop+(1440x250)",
-  grids_mobile: "https://placehold.co/768x300/D6AF68/111?text=Banner+Entre+Grades+Mobile+(768x300)"
+  grids_slides: []
 };
 
 const DEFAULT_MEGA_FOOTER = [
@@ -594,15 +593,31 @@ function renderCatalog() {
         `;
       }
 
-      if (sectionsRendered === 1 && (BANNERS.grids_desktop || BANNERS.grids_mobile)) {
-        const gLink  = BANNERS.grids_link || '';
-        const gDesk  = BANNERS.grids_desktop || '';
-        const gMob   = BANNERS.grids_mobile  || gDesk;
-        const gInner = [
-          gDesk ? `<img src="${gDesk}" class="hidden lg:block w-full h-auto rounded-xl object-cover" onerror="this.style.display='none'">` : '',
-          gMob  ? `<img src="${gMob}"  class="block lg:hidden w-full h-auto rounded-xl object-cover" onerror="this.style.display='none'" alt="Banner Promo">` : '',
-        ].join('');
-        catalogHtml += `<section class="w-full py-8 max-w-7xl mx-auto px-4 lg:px-6">${gLink ? `<a href="${gLink}">${gInner}</a>` : gInner}</section>`;
+      if (sectionsRendered === 1) {
+        // Support both new grids_slides array and legacy grids_desktop/mobile strings
+        let gSlides = Array.isArray(BANNERS.grids_slides)
+          ? BANNERS.grids_slides.filter(s => s.img_d || s.img_m)
+          : [];
+        if (gSlides.length === 0 && (BANNERS.grids_desktop || BANNERS.grids_mobile)) {
+          gSlides = [{ img_d: BANNERS.grids_desktop || '', img_m: BANNERS.grids_mobile || '', link: BANNERS.grids_link || '' }];
+        }
+        if (gSlides.length > 0) {
+          const slidesHtml = gSlides.map(s => {
+            // No mobile fallback to desktop — if mobile empty, simply omit
+            const dTag = s.img_d ? `<img src="${s.img_d}" class="hidden lg:block w-full h-auto rounded-xl" onerror="this.style.display='none'">` : '';
+            const mTag = s.img_m ? `<img src="${s.img_m}" class="block lg:hidden w-full h-auto rounded-xl" onerror="this.style.display='none'">` : '';
+            const inner = dTag + mTag;
+            return inner ? `<div class="swiper-slide">${s.link ? `<a href="${s.link}">${inner}</a>` : inner}</div>` : '';
+          }).filter(Boolean).join('');
+          if (slidesHtml) {
+            const hasPager = gSlides.length > 1;
+            catalogHtml += `<section class="w-full py-4">
+              <div class="grids-swiper swiper max-w-7xl mx-auto px-4 lg:px-6" style="overflow:hidden">
+                <div class="swiper-wrapper">${slidesHtml}</div>
+                ${hasPager ? '<div class="swiper-pagination" style="position:relative;padding-top:8px"></div>' : ''}
+              </div></section>`;
+          }
+        }
       }
 
       sectionsRendered++;
@@ -610,6 +625,16 @@ function renderCatalog() {
   });
 
   dynamicCatalog.innerHTML = catalogHtml;
+
+  // Init grids carousel if multi-slide
+  const gridsSwiperEl = document.querySelector('.grids-swiper');
+  if (gridsSwiperEl && typeof Swiper !== 'undefined' && gridsSwiperEl.querySelectorAll('.swiper-slide').length > 1) {
+    new Swiper('.grids-swiper', {
+      loop: true,
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: '.grids-swiper .swiper-pagination', clickable: true },
+    });
+  }
 
   vitrinesData.forEach((vitrineName, index) => {
     let items = allProducts.filter(p => p.vitrines.includes(vitrineName) && p.type === 'Camisa');

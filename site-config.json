@@ -46,9 +46,7 @@
     "cat_int_m": "assets\\img\\INTERNACIONAL.png",
     "cat_ret_d": "assets\\img\\RETRO.png",
     "cat_ret_m": "assets\\img\\RETRO.png",
-    "grids_desktop": "",
-    "grids_mobile": "",
-    "grids_link": "",
+    "grids_slides": [],
     "home_links": [
       "categoria.html?v=Brasileirão",
       "categoria.html?v=Retro%20palmeiras",
