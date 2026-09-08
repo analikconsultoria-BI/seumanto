@@ -594,13 +594,15 @@ function renderCatalog() {
         `;
       }
 
-      if (sectionsRendered === 1) {
-        catalogHtml += `
-        <section class="w-full py-8 max-w-7xl mx-auto px-4 lg:px-6">
-          <img src="${BANNERS.grids_desktop}" class="hidden lg:block w-full h-auto rounded-xl object-cover">
-          <img src="${BANNERS.grids_mobile}" alt="Banner Promo" class="block lg:hidden w-full h-auto rounded-xl object-cover">
-        </section>
-        `;
+      if (sectionsRendered === 1 && (BANNERS.grids_desktop || BANNERS.grids_mobile)) {
+        const gLink  = BANNERS.grids_link || '';
+        const gDesk  = BANNERS.grids_desktop || '';
+        const gMob   = BANNERS.grids_mobile  || gDesk;
+        const gInner = [
+          gDesk ? `<img src="${gDesk}" class="hidden lg:block w-full h-auto rounded-xl object-cover" onerror="this.style.display='none'">` : '',
+          gMob  ? `<img src="${gMob}"  class="block lg:hidden w-full h-auto rounded-xl object-cover" onerror="this.style.display='none'" alt="Banner Promo">` : '',
+        ].join('');
+        catalogHtml += `<section class="w-full py-8 max-w-7xl mx-auto px-4 lg:px-6">${gLink ? `<a href="${gLink}">${gInner}</a>` : gInner}</section>`;
       }
 
       sectionsRendered++;

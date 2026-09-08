@@ -244,6 +244,9 @@
     </div>
   </header>
 
+  <!-- Banner de página da categoria (full width, antes do grid) -->
+  <div id="cat-page-banner" class="w-full bg-gray-50"></div>
+
   <!-- CATEGORY GRID -->
   <section class="py-12 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto px-6 mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -276,13 +279,23 @@
         <div class="flex flex-wrap items-center justify-center gap-3 pb-2 pt-2" id="liga-filters-container" style="display:none;">
           <!-- JS renderiza -->
         </div>
-        <!-- Times: scroll horizontal com fade nas bordas -->
-        <div class="relative mt-2" id="team-filters-wrapper">
-          <div class="pointer-events-none absolute left-0 top-0 bottom-0 w-10 z-10 transition-opacity duration-200" id="team-fade-left" style="background:linear-gradient(to right,#fff,transparent);opacity:0"></div>
-          <div class="flex items-center gap-3 overflow-x-auto pb-3 pt-2 team-scroll-track" id="team-filters-container">
-            <!-- JS renderiza -->
+        <!-- Times: setas fora do track + fade nas bordas -->
+        <div class="flex items-center gap-1.5 mt-2" id="team-filters-wrapper">
+          <button id="team-arrow-left" onclick="scrollTeams(-1)"
+            class="flex-shrink-0 w-7 h-7 flex items-center justify-center border border-gray-200 rounded-full bg-white shadow-sm text-gray-400 hover:text-gray-900 hover:border-gray-400 transition-all hidden">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <div class="flex-1 min-w-0 relative" style="overflow:hidden">
+            <div id="team-fade-left" class="pointer-events-none absolute left-0 top-0 bottom-0 w-8 z-10 transition-opacity duration-200" style="background:linear-gradient(to right,#f9fafb,transparent);opacity:0"></div>
+            <div id="team-filters-container" class="flex items-center gap-3 overflow-x-auto team-scroll-track pb-2 pt-1">
+              <!-- JS renderiza -->
+            </div>
+            <div id="team-fade-right" class="pointer-events-none absolute right-0 top-0 bottom-0 w-8 z-10 transition-opacity duration-200" style="background:linear-gradient(to left,#f9fafb,transparent);opacity:0"></div>
           </div>
-          <div class="pointer-events-none absolute right-0 top-0 bottom-0 w-10 z-10 transition-opacity duration-200" id="team-fade-right" style="background:linear-gradient(to left,#fff,transparent);opacity:0"></div>
+          <button id="team-arrow-right" onclick="scrollTeams(1)"
+            class="flex-shrink-0 w-7 h-7 flex items-center justify-center border border-gray-200 rounded-full bg-white shadow-sm text-gray-400 hover:text-gray-900 hover:border-gray-400 transition-all hidden">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -421,6 +434,33 @@
       document.getElementById('category-title').innerText = catName.toUpperCase();
       document.title = catName + " – Seu Manto";
 
+      // Carregar banner de página da categoria
+      (async () => {
+        try {
+          const cfgResp = await fetch('site-config.json?' + Date.now());
+          if (!cfgResp.ok) return;
+          const cfg = await cfgResp.json();
+          if (!cfg.cat_banners) return;
+          const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+          const match = cfg.cat_banners.find(b => {
+            if (slug(b.label||'') === slug(catName)) return true;
+            const linkV = new URLSearchParams((b.link||'').split('?')[1]||'').get('v') || '';
+            return linkV && slug(linkV) === slug(catName);
+          });
+          if (!match || (!match.page_img_d && !match.page_img_m)) return;
+          const bannerEl = document.getElementById('cat-page-banner');
+          if (!bannerEl) return;
+          const dImg = match.page_img_d || '';
+          const mImg = match.page_img_m || '';
+          const lnk  = match.page_link  || '';
+          const inner = [
+            dImg ? `<img src="${dImg}" class="hidden lg:block w-full h-auto" onerror="this.style.display='none'">` : '',
+            mImg ? `<img src="${mImg}" class="block lg:hidden w-full h-auto" onerror="this.style.display='none'">` : '',
+          ].join('');
+          bannerEl.innerHTML = lnk ? `<a href="${lnk}">${inner}</a>` : inner;
+        } catch(e) {}
+      })();
+
       let currentTypeFilter = 'all';
       let currentTeamFilter = 'all';
       let currentLigaFilter = 'all';
@@ -475,13 +515,20 @@
           return searchTokens.every(token => searchableText.includes(token));
         });
 
-        // Apply liga filter first to determine available teams
+        // Apply liga filter first
         let ligaItems = currentLigaFilter !== 'all'
           ? baseItems.filter(p => p.liga === currentLigaFilter)
           : baseItems;
 
-        // Always re-render filters (liga buttons from all, team badges from liga-filtered)
-        renderFilters(baseItems, ligaItems);
+        // Cross-filter: teams shown depend on selected type; types shown depend on selected team
+        const teamsSource = currentTypeFilter !== 'all'
+          ? ligaItems.filter(p => p.type === currentTypeFilter)
+          : ligaItems;
+        const typesSource = currentTeamFilter !== 'all'
+          ? ligaItems.filter(p => p.team === currentTeamFilter)
+          : ligaItems;
+
+        renderFilters(baseItems, teamsSource, typesSource);
 
         // Apply remaining filters
         let items = ligaItems;
@@ -548,14 +595,17 @@
         }
       };
 
-      const renderFilters = (baseItems, teamSourceItems) => {
+      const renderFilters = (baseItems, teamSourceItems, typeSourceItems) => {
         if (!teamSourceItems) teamSourceItems = baseItems;
+        if (!typeSourceItems) typeSourceItems = baseItems;
         let types = [];
         let teams = [];
         let ligas = [];
         baseItems.forEach(p => {
-          if (p.type && !types.includes(p.type)) types.push(p.type);
           if (p.liga && !ligas.includes(p.liga) && p.liga !== p.category) ligas.push(p.liga);
+        });
+        typeSourceItems.forEach(p => {
+          if (p.type && !types.includes(p.type)) types.push(p.type);
         });
         teamSourceItems.forEach(p => {
           if (p.team && !teams.includes(p.team)) teams.push(p.team);
@@ -594,7 +644,9 @@
 
         // Render Team Filters
         const teamContainer = document.getElementById('team-filters-container');
-        teamContainer.innerHTML = `<button class="filter-btn ${currentTeamFilter === 'all' ? 'active' : 'inactive'}" onclick="setTeamFilter('all')">Todos os Times</button>`;
+        teamContainer.innerHTML = currentTeamFilter !== 'all'
+          ? `<button class="flex-shrink-0 flex items-center gap-1 text-xs font-semibold text-white bg-[#D6AF68] rounded-full px-3 py-1.5 hover:bg-[#b8953e] transition-colors whitespace-nowrap" onclick="setTeamFilter('all')"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Limpar</button>`
+          : '';
 
         teams.forEach(team => {
           const badgeUrl = TEAM_BADGES[team.toLowerCase()];
@@ -612,7 +664,7 @@
         });
         
         teamContainer.style.display = 'flex';
-        setTimeout(updateTeamFades, 50);
+        setTimeout(updateTeamNav, 50);
       };
 
       window.setLigaFilter = (liga) => {
@@ -688,21 +740,29 @@
       window.currentPage = parseInt(urlParams.get('page')) || 1;
       window.filtersRendered = false;
 
-      // ── Fade de borda nos times ──────────────────────
+      // ── Navegação do row de times (setas + fade) ─────
       const teamTrack  = document.getElementById('team-filters-container');
+      const arrowLeft  = document.getElementById('team-arrow-left');
+      const arrowRight = document.getElementById('team-arrow-right');
       const fadeLeft   = document.getElementById('team-fade-left');
       const fadeRight  = document.getElementById('team-fade-right');
 
-      const updateTeamFades = () => {
+      const updateTeamNav = () => {
         if (!teamTrack) return;
         const hasOverflow = teamTrack.scrollWidth > teamTrack.clientWidth + 2;
         const atStart = teamTrack.scrollLeft <= 4;
         const atEnd   = teamTrack.scrollLeft + teamTrack.clientWidth >= teamTrack.scrollWidth - 4;
-        if (fadeLeft)  fadeLeft.style.opacity  = (!atStart && hasOverflow) ? '1' : '0';
-        if (fadeRight) fadeRight.style.opacity = (!atEnd   && hasOverflow) ? '1' : '0';
+        if (arrowLeft)  arrowLeft.classList.toggle('hidden', atStart || !hasOverflow);
+        if (arrowRight) arrowRight.classList.toggle('hidden', atEnd   || !hasOverflow);
+        if (fadeLeft)   fadeLeft.style.opacity  = (!atStart && hasOverflow) ? '1' : '0';
+        if (fadeRight)  fadeRight.style.opacity = (!atEnd   && hasOverflow) ? '1' : '0';
       };
 
-      if (teamTrack) teamTrack.addEventListener('scroll', updateTeamFades);
+      window.scrollTeams = (dir) => {
+        if (teamTrack) { teamTrack.scrollLeft += dir * (teamTrack.clientWidth * 0.7); setTimeout(updateTeamNav, 350); }
+      };
+
+      if (teamTrack) teamTrack.addEventListener('scroll', updateTeamNav);
 
       // ── Toggle de filtros ─────────────────────────────
       let filtersOpen = true;

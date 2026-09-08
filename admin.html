@@ -161,10 +161,56 @@
       </div>
     </div>
 
+    <!-- BANNER ENTRE GRADES -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="font-sport text-2xl tracking-wide mb-1">Banner Entre as Grades de Produtos</h2>
+      <p class="text-xs text-gray-500 mb-5">Aparece entre a 1ª e 2ª linha de produtos na home. Tamanho ideal: 1440×250 (desktop) / 768×300 (mobile).</p>
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-1">
+            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            Link ao clicar
+          </label>
+          <input type="text" id="grids-link" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none bg-white">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-2">
+              <svg class="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+              Desktop (1440×250)
+            </label>
+            <input type="text" id="grids-desktop" placeholder="https://..." oninput="livePreview(this,'grids-prev-d','grids-ph-d')" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+            <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="aspect-ratio:1440/250;min-height:50px">
+              <img id="grids-prev-d" src="" onerror="this.style.display='none';document.getElementById('grids-ph-d').style.display='flex'" style="display:none" class="w-full h-full object-cover absolute inset-0">
+              <div id="grids-ph-d" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400">
+                <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Sem imagem</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-2">
+              <svg class="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
+              Mobile (768×300)
+            </label>
+            <input type="text" id="grids-mobile" placeholder="https://... (usa desktop se vazio)" oninput="livePreview(this,'grids-prev-m','grids-ph-m')" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+            <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="height:100px">
+              <img id="grids-prev-m" src="" onerror="this.style.display='none';document.getElementById('grids-ph-m').style.display='flex'" style="display:none" class="w-full h-full object-cover absolute inset-0">
+              <div id="grids-ph-m" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400">
+                <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Sem imagem · usa desktop</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button onclick="saveGridsBanner()" type="button" class="mt-4 bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Banner Entre Grades</button>
+    </div>
+
     <!-- BANNERS CATEGORIAS (3 blocos) -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <h2 class="font-sport text-2xl tracking-wide mb-1">Banners de Categoria (3 blocos)</h2>
-      <p class="text-xs text-gray-500 mb-5">Os 3 blocos da home. O r&oacute;tulo pode ser editado diretamente no cabe&ccedil;alho de cada bloco.</p>
+      <p class="text-xs text-gray-500 mb-5">Os 3 blocos da home + banner interno (1440×250) exibido no topo de cada página de categoria. O r&oacute;tulo pode ser editado no cabe&ccedil;alho de cada bloco.</p>
       <div id="cat-banners-editor" class="space-y-5"></div>
       <button onclick="saveCatBanners()" type="button" class="mt-4 bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Blocos</button>
     </div>
@@ -683,6 +729,42 @@
                   </div>
                 </div>
               </div>
+              <!-- Banner interno da página de categoria (1440×250) -->
+              <div class="border-t border-dashed border-gray-300 mt-4 pt-4">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-3 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 10h20"/></svg>
+                  Banner interno da página (1440×250)
+                </p>
+                <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Link ao clicar</label>
+                <input type="text" id="cb-pglnk-${i}" value="${escHtml(b.page_link||'')}" placeholder="https://..."
+                  class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-3 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Desktop (1440×250)</label>
+                    <input type="text" id="cb-pgd-${i}" value="${escHtml(b.page_img_d||'')}" oninput="livePreview(this,'pg-prev-${i}-d','pg-ph-${i}-d')" placeholder="https://..."
+                      class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+                    <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="aspect-ratio:1440/250;min-height:40px">
+                      <img id="pg-prev-${i}-d" src="${escHtml(b.page_img_d||'')}" onerror="this.style.display='none';document.getElementById('pg-ph-${i}-d').style.display='flex'" style="${b.page_img_d?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
+                      <div id="pg-ph-${i}-d" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.page_img_d?'display:none':''}">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span>Sem imagem</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Mobile (768×300)</label>
+                    <input type="text" id="cb-pgm-${i}" value="${escHtml(b.page_img_m||'')}" oninput="livePreview(this,'pg-prev-${i}-m','pg-ph-${i}-m')" placeholder="https://... (usa desktop se vazio)"
+                      class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+                    <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="height:80px">
+                      <img id="pg-prev-${i}-m" src="${escHtml(b.page_img_m||'')}" onerror="this.style.display='none';document.getElementById('pg-ph-${i}-m').style.display='flex'" style="${b.page_img_m?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
+                      <div id="pg-ph-${i}-m" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.page_img_m?'display:none':''}">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span>Sem imagem · usa desktop</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>`;
       }).join('');
@@ -690,10 +772,13 @@
 
     function saveCatBanners() {
       catBannersData = catBannersData.map((b,i) => ({
-        label: document.getElementById(`cb-label-${i}`).value,
-        link:  document.getElementById(`cb-link-${i}`).value,
-        img_d: document.getElementById(`cb-imgd-${i}`).value,
-        img_m: document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
+        label:      document.getElementById(`cb-label-${i}`).value,
+        link:       document.getElementById(`cb-link-${i}`).value,
+        img_d:      document.getElementById(`cb-imgd-${i}`).value,
+        img_m:      document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
+        page_img_d: document.getElementById(`cb-pgd-${i}`).value,
+        page_img_m: document.getElementById(`cb-pgm-${i}`).value,
+        page_link:  document.getElementById(`cb-pglnk-${i}`).value,
       }));
       bannersData.cat_nac_d = catBannersData[0].img_d; bannersData.cat_nac_m = catBannersData[0].img_m;
       bannersData.cat_int_d = catBannersData[1].img_d; bannersData.cat_int_m = catBannersData[1].img_m;
@@ -701,6 +786,24 @@
       localStorage.setItem('seumanto_cat_banners', JSON.stringify(catBannersData));
       localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
       alert('Blocos de categoria salvos!');
+    }
+
+    // ── Init grids banner fields ─────────────────────
+    (function initGridsBanner() {
+      const dEl = document.getElementById('grids-desktop');
+      const mEl = document.getElementById('grids-mobile');
+      const lEl = document.getElementById('grids-link');
+      if (dEl) { dEl.value = bannersData.grids_desktop || ''; livePreview(dEl,'grids-prev-d','grids-ph-d'); }
+      if (mEl) { mEl.value = bannersData.grids_mobile  || ''; livePreview(mEl,'grids-prev-m','grids-ph-m'); }
+      if (lEl) lEl.value = bannersData.grids_link || '';
+    })();
+
+    function saveGridsBanner() {
+      bannersData.grids_desktop = document.getElementById('grids-desktop').value;
+      bannersData.grids_mobile  = document.getElementById('grids-mobile').value  || document.getElementById('grids-desktop').value;
+      bannersData.grids_link    = document.getElementById('grids-link').value;
+      localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
+      alert('Banner entre grades salvo!');
     }
 
     renderTable();

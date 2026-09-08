@@ -5,19 +5,28 @@
       "label": "Brasileirão",
       "link": "categoria.html?v=Brasileir%C3%A3o",
       "img_d": "assets\\img\\BRASILEIRAO.png",
-      "img_m": "assets\\img\\BRASILEIRAO.png"
+      "img_m": "assets\\img\\BRASILEIRAO.png",
+      "page_img_d": "",
+      "page_img_m": "",
+      "page_link": ""
     },
     {
       "label": "Internacionais",
       "link": "categoria.html?v=Internacionais",
       "img_d": "assets\\img\\INTERNACIONAL.png",
-      "img_m": "assets\\img\\INTERNACIONAL.png"
+      "img_m": "assets\\img\\INTERNACIONAL.png",
+      "page_img_d": "",
+      "page_img_m": "",
+      "page_link": ""
     },
     {
       "label": "Retrô",
       "link": "categoria.html?v=Retro",
       "img_d": "assets\\img\\RETRO.png",
-      "img_m": "assets\\img\\RETRO.png"
+      "img_m": "assets\\img\\RETRO.png",
+      "page_img_d": "",
+      "page_img_m": "",
+      "page_link": ""
     }
   ],
   "banners": {
@@ -39,6 +48,7 @@
     "cat_ret_m": "assets\\img\\RETRO.png",
     "grids_desktop": "",
     "grids_mobile": "",
+    "grids_link": "",
     "home_links": [
       "categoria.html?v=Brasileirão",
       "categoria.html?v=Retro%20palmeiras",
