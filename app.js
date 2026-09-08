@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const colStyle = `column-count:${cols};column-gap:2rem;`;
 
     desktopHtml += `
-      <div class="nav-mega-item h-full flex items-center px-4 cursor-pointer hover:bg-gray-800 transition-colors" style="position:relative;">
+      <div class="nav-mega-item h-full flex items-center px-4 cursor-pointer hover:bg-gray-100 transition-colors" style="position:relative;">
         <span class="nav-link !normal-case tracking-normal">${cat.name} <span class="text-[10px] ml-1">&#9662;</span></span>
         <div class="nav-mega-dropdown" style="display:none;position:absolute;left:0;top:100%;z-index:9999;min-width:200px;">
           <div class="bg-[#111] text-white shadow-2xl border border-[#333] rounded-b-lg mt-0" style="padding:1.25rem 1.5rem;">
