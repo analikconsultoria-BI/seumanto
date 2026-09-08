@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpeg">
   <title>Seu Manto – Camisas de Futebol</title>
   <meta name="description"
     content="Catálogo de camisas de futebol nacionais, europeias e retrô. Consulte via WhatsApp.">
@@ -426,8 +427,8 @@
       if (!desktops || desktops.length === 0 || !desktops[0]) {
         desktops = ["assets/img/banner_home_desktop.jpg"];
       }
-      if (!mobiles || mobiles.length === 0 || !mobiles[0]) {
-        mobiles = desktops; // usa o desktop se não tiver mobile
+      if (!mobiles || mobiles.length === 0) {
+        mobiles = desktops;
       }
 
       // Auto-corrigir extensões .jfif para .jpg
