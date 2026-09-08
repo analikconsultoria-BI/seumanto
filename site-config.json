@@ -1,56 +1,136 @@
 {
   "whatsapp": "5519988369538",
   "cat_banners": [
-    { "label": "Brasileirão", "link": "categoria.html?v=Brasileir%C3%A3o" },
-    { "label": "Internacionais", "link": "categoria.html?v=Internacionais" },
-    { "label": "La Liga", "link": "categoria.html?v=La%20Liga" }
+    {
+      "label": "Brasileirão",
+      "link": "categoria.html?v=Brasileir%C3%A3o",
+      "img_d": "assets\\img\\BRASILEIRAO.png",
+      "img_m": "assets\\img\\BRASILEIRAO.png"
+    },
+    {
+      "label": "Internacionais",
+      "link": "categoria.html?v=Internacionais",
+      "img_d": "assets\\img\\INTERNACIONAL.png",
+      "img_m": "assets\\img\\INTERNACIONAL.png"
+    },
+    {
+      "label": "Retrô",
+      "link": "categoria.html?v=Retro",
+      "img_d": "assets\\img\\RETRO.png",
+      "img_m": "assets\\img\\RETRO.png"
+    }
   ],
   "banners": {
-    "home_desktop": "assets/img/SELEÇÃO BRASILEIRA.png",
-    "home_mobile": "assets/img/SELEÇÃO BRASILEIRA.png",
-    "cat_nac_d": "assets/img/BRASILEIRAO.png",
-    "cat_nac_m": "assets/img/BRASILEIRAO.png",
-    "cat_int_d": "assets/img/INTERNACIONAL.png",
-    "cat_int_m": "assets/img/INTERNACIONAL.png",
-    "cat_ret_d": "assets/img/RETRO.png",
-    "cat_ret_m": "assets/img/RETRO.png",
+    "home_desktop": [
+      "assets\\img\\banner_home_desktop.jpg",
+      "assets\\img\\banner_verdao_retro.jpg",
+      "assets\\img\\colecaoretrocor.png"
+    ],
+    "home_mobile": [
+      "assets\\img\\corinthiansbannerretro.png",
+      "\\assets\\img\\palmeirasbannerretro.png"
+    ],
+    "cat_nac_d": "assets\\img\\BRASILEIRAO.png",
+    "cat_nac_m": "assets\\img\\BRASILEIRAO.png",
+    "cat_int_d": "assets\\img\\INTERNACIONAL.png",
+    "cat_int_m": "assets\\img\\INTERNACIONAL.png",
+    "cat_ret_d": "assets\\img\\RETRO.png",
+    "cat_ret_m": "assets\\img\\RETRO.png",
     "grids_desktop": "",
-    "grids_mobile": ""
+    "grids_mobile": "",
+    "home_links": [
+      "categoria.html?v=Brasileirão",
+      "categoria.html?v=Retro%20palmeiras",
+      "categoria.html?v=retro%20corinthians"
+    ]
   },
   "megafooter": [
     {
-      "id": "brasileiros", "name": "Brasileiros", "active": true,
+      "id": "brasileiros",
+      "name": "Brasileiros",
+      "active": true,
       "subs": [
-        { "title": "Minas Gerais", "items": "Atlético Mineiro, Cruzeiro, América Mineiro" },
-        { "title": "Rio de Janeiro", "items": "Flamengo, Vasco, Fluminense, Botafogo" },
-        { "title": "São Paulo", "items": "São Paulo, Palmeiras, Santos, Corinthians, Bragantino" },
-        { "title": "Sul", "items": "Internacional, Grêmio, Athletico Paranaense, Coritiba, Juventude" },
-        { "title": "Nordeste/Norte", "items": "Bahia, Vitória, Fortaleza, Ceará, Sport, Náutico, Santa Cruz, Remo, Paysandu" }
+        {
+          "title": "Minas Gerais",
+          "items": "Atlético Mineiro, Cruzeiro, América Mineiro"
+        },
+        {
+          "title": "Rio de Janeiro",
+          "items": "Flamengo, Vasco, Fluminense, Botafogo"
+        },
+        {
+          "title": "São Paulo",
+          "items": "São Paulo, Palmeiras, Santos, Corinthians, Bragantino"
+        },
+        {
+          "title": "Sul",
+          "items": "Internacional, Grêmio, Athletico Paranaense, Coritiba, Juventude"
+        },
+        {
+          "title": "Nordeste/Norte",
+          "items": "Bahia, Vitória, Fortaleza, Ceará, Sport, Náutico, Santa Cruz, Remo, Paysandu"
+        }
       ]
     },
     {
-      "id": "internacionais", "name": "Internacionais", "active": true,
+      "id": "internacionais",
+      "name": "Internacionais",
+      "active": true,
       "subs": [
-        { "title": "Premier League (ING)", "items": "Arsenal, Chelsea, Liverpool, Manchester City, Manchester United, Tottenham" },
-        { "title": "La Liga (ESP)", "items": "Barcelona, Real Madrid, Atlético de Madrid" },
-        { "title": "Serie A (ITA)", "items": "Juventus, Milan, Inter de Milão, Napoli, Roma" },
-        { "title": "Outras Ligas", "items": "PSG, Bayern de Munique, Borussia Dortmund, Bayer Leverkusen, Ajax, Porto, Benfica" }
+        {
+          "title": "Premier League (ING)",
+          "items": "Arsenal, Chelsea, Liverpool, Manchester City, Manchester United, Tottenham"
+        },
+        {
+          "title": "La Liga (ESP)",
+          "items": "Barcelona, Real Madrid, Atlético de Madrid"
+        },
+        {
+          "title": "Serie A (ITA)",
+          "items": "Juventus, Milan, Inter de Milão, Napoli, Roma"
+        },
+        {
+          "title": "Outras Ligas",
+          "items": "PSG, Bayern de Munique, Borussia Dortmund, Bayer Leverkusen, Ajax, Porto, Benfica"
+        }
       ]
     },
     {
-      "id": "selecoes", "name": "Seleções", "active": true,
+      "id": "selecoes",
+      "name": "Seleções",
+      "active": false,
       "subs": [
-        { "title": "América", "items": "Brasil, Argentina, Uruguai, Colômbia, Equador, Chile, Peru, Bolívia, Venezuela" },
-        { "title": "Europa", "items": "Alemanha, Itália, França, Espanha, Inglaterra, Portugal, Holanda, Croácia, Bélgica" },
-        { "title": "África & Ásia", "items": "Senegal, Marrocos, Nigéria, Egito, Camarões, Japão, Coreia do Sul, Arábia Saudita" }
+        {
+          "title": "América",
+          "items": "Brasil, Argentina, Uruguai, Colômbia, Equador, Chile, Peru, Bolívia, Venezuela"
+        },
+        {
+          "title": "Europa",
+          "items": "Alemanha, Itália, França, Espanha, Inglaterra, Portugal, Holanda, Croácia, Bélgica"
+        },
+        {
+          "title": "África & Ásia",
+          "items": "Senegal, Marrocos, Nigéria, Egito, Camarões, Japão, Coreia do Sul, Arábia Saudita"
+        }
       ]
     },
     {
-      "id": "libertadores", "name": "Libertadores", "active": true,
+      "id": "libertadores",
+      "name": "Libertadores",
+      "active": false,
       "subs": [
-        { "title": "Times Brasileiros", "items": "Fluminense, São Paulo, Grêmio, Atlético Mineiro, Palmeiras, Flamengo, Botafogo" },
-        { "title": "Times Argentinos", "items": "River Plate, Estudiantes, San Lorenzo, Rosario Central, Talleres, Boca Juniors" },
-        { "title": "Outros Países", "items": "Peñarol, Nacional, Colo-Colo, LDU, Independiente del Valle, Bolívar, Cerro Porteño" }
+        {
+          "title": "Times Brasileiros",
+          "items": "Fluminense, São Paulo, Grêmio, Atlético Mineiro, Palmeiras, Flamengo, Botafogo"
+        },
+        {
+          "title": "Times Argentinos",
+          "items": "River Plate, Estudiantes, San Lorenzo, Rosario Central, Talleres, Boca Juniors"
+        },
+        {
+          "title": "Outros Países",
+          "items": "Peñarol, Nacional, Colo-Colo, LDU, Independiente del Valle, Bolívar, Cerro Porteño"
+        }
       ]
     }
   ]
