@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -276,8 +276,8 @@
         <a href="index.html" class="flex-shrink-0">
           <img src="assets/img/logo.jfif" alt="Seu Manto Logo" class="h-10 w-10 object-contain rounded-lg shadow-sm">
         </a>
-        <!-- Barra de Pesquisa — ocupa todo o espaço disponível -->
-        <div class="flex items-center border border-gray-700 rounded-full px-3 py-1.5 flex-1 bg-[#1a1a1a] focus-within:bg-[#2a2a2a] focus-within:border-gold transition-colors">
+        <!-- Barra de Pesquisa -->
+        <div class="flex items-center border border-gray-700 rounded-full px-3 py-1.5 flex-1 min-w-0 max-w-xs lg:max-w-sm bg-[#1a1a1a] focus-within:bg-[#2a2a2a] focus-within:border-gold transition-colors">
           <input type="text" id="global-search" placeholder="Buscar camisas, times, ligas..."
             class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-gray-400">
           <button onclick="performSearch()" class="text-gray-400 hover:text-gold flex-shrink-0 ml-1">
@@ -300,7 +300,7 @@
     <!-- Linha 2: Categorias — fundo branco (apenas desktop) -->
     <div class="hidden lg:block bg-white border-b border-gray-200">
       <div class="max-w-7xl mx-auto">
-        <nav id="desktop-nav" class="flex items-center h-11">
+        <nav id="desktop-nav" class="flex items-center justify-center h-11">
           <!-- Populated by JS -->
         </nav>
       </div>
@@ -443,26 +443,19 @@
 
       const wrapper = document.getElementById('home-banner-wrapper');
       
-      if (desktops.length > 0 && desktops[0]) {
+      if (desktops.length > 0 || mobiles.length > 0) {
         let html = '';
         const maxBanners = Math.max(desktops.length, mobiles.length);
-        const fallbackUrl = 'https://placehold.co/1920x600/222/D6AF68?text=Imagem+Nao+Encontrada';
         for (let i = 0; i < maxBanners; i++) {
-          let dImg = desktops[i] || desktops[0];
-          let mImg = mobiles[i] || dImg || mobiles[0];
+          let dImg = desktops[i] || '';
+          let mImg = mobiles[i] || '';
           let link = links[i] || "";
-          
-          let imgContent = `
-              <img src="${dImg}" onerror="this.src='${fallbackUrl}'" class="hidden lg:block w-full h-auto object-cover" alt="Banner ${i+1} Desktop">
-              <img src="${mImg}" onerror="this.src='${fallbackUrl}'" class="block lg:hidden w-full h-auto object-cover" alt="Banner ${i+1} Mobile">
-          `;
+          if (!dImg && !mImg) continue;
+          const dTag = dImg ? `<img src="${dImg}" onerror="this.style.display='none'" class="hidden lg:block w-full h-auto object-cover" alt="Banner ${i+1} Desktop">` : '';
+          const mTag = mImg ? `<img src="${mImg}" onerror="this.style.display='none'" class="block lg:hidden w-full h-auto object-cover" alt="Banner ${i+1} Mobile">` : '';
+          let imgContent = dTag + mTag;
           let slideContent = link ? `<a href="${link}" class="block w-full h-full">${imgContent}</a>` : imgContent;
-          
-          html += `
-            <div class="swiper-slide cursor-pointer">
-              ${slideContent}
-            </div>
-          `;
+          html += `<div class="swiper-slide cursor-pointer">${slideContent}</div>`;
         }
         wrapper.innerHTML = html;
       }

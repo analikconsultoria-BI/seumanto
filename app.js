@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="nav-mega-item h-full flex items-center px-4 cursor-pointer hover:bg-gray-100 transition-colors" style="position:relative;">
         <span class="nav-link !normal-case tracking-normal">${cat.name} <span class="text-[10px] ml-1">&#9662;</span></span>
         <div class="nav-mega-dropdown" style="display:none;position:absolute;left:0;top:100%;z-index:9999;min-width:200px;">
-          <div class="bg-[#111] text-white shadow-2xl border border-[#333] rounded-b-lg mt-0" style="padding:1.25rem 1.5rem;">
+          <div class="bg-white text-gray-800 shadow-xl border border-gray-200 rounded-b-lg mt-0" style="padding:1.25rem 1.5rem;">
     `;
     cat.subs.forEach(sub => {
       desktopHtml += `<div>
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!i) return;
         const badge = (window.TEAM_BADGES || {})[i.toLowerCase()];
         const badgeImg = badge ? `<img src="${badge}" alt="${i}" style="width:18px;height:18px;object-fit:contain;display:inline-block;vertical-align:middle;margin-right:6px;border-radius:50%;">` : '';
-        desktopHtml += `<li style="break-inside:avoid;padding:3px 0;"><a href="categoria.html?v=${encodeURIComponent(i)}" style="color:#9ca3af;font-size:13px;display:flex;align-items:center;white-space:nowrap;text-decoration:none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#9ca3af'">${badgeImg}${i}</a></li>`;
+        desktopHtml += `<li style="break-inside:avoid;padding:3px 0;"><a href="categoria.html?v=${encodeURIComponent(i)}" style="color:#555;font-size:13px;display:flex;align-items:center;white-space:nowrap;text-decoration:none;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#555'">${badgeImg}${i}</a></li>`;
       });
       desktopHtml += `</ul></div>`;
     });
