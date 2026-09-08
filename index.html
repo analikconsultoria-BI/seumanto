@@ -321,23 +321,23 @@
       <a id="cat-banner-link-0" href="categoria.html?v=Brasileir%C3%A3o"
         class="block overflow-hidden rounded-xl md:rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300 relative" style="aspect-ratio:3/4;">
         <img id="banner-cat-nac-d" src="https://placehold.co/400x600/111/39FF14?text=BRASILEIRAO"
-          class="hidden md:block absolute inset-0 w-full h-full object-cover">
+          class="hidden lg:block absolute inset-0 w-full h-full object-cover">
         <img id="banner-cat-nac-m" src="https://placehold.co/400x600/111/39FF14?text=BRASILEIRAO"
-          alt="Brasileir&atilde;o" class="block md:hidden absolute inset-0 w-full h-full object-cover">
+          alt="Brasileir&atilde;o" class="block lg:hidden absolute inset-0 w-full h-full object-cover">
       </a>
       <a id="cat-banner-link-1" href="categoria.html?v=Internacionais"
         class="block overflow-hidden rounded-xl md:rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300 relative" style="aspect-ratio:3/4;">
         <img id="banner-cat-int-d" src="https://placehold.co/400x600/111/39FF14?text=INTERNACIONAIS"
-          class="hidden md:block absolute inset-0 w-full h-full object-cover">
+          class="hidden lg:block absolute inset-0 w-full h-full object-cover">
         <img id="banner-cat-int-m" src="https://placehold.co/400x600/111/39FF14?text=INTERNACIONAIS"
-          alt="Internacionais" class="block md:hidden absolute inset-0 w-full h-full object-cover">
+          alt="Internacionais" class="block lg:hidden absolute inset-0 w-full h-full object-cover">
       </a>
       <a id="cat-banner-link-2" href="categoria.html?v=La%20Liga"
         class="block overflow-hidden rounded-xl md:rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300 relative" style="aspect-ratio:3/4;">
         <img id="banner-cat-ret-d" src="https://placehold.co/400x600/111/39FF14?text=CAMISAS+RETRO"
-          class="hidden md:block absolute inset-0 w-full h-full object-cover">
+          class="hidden lg:block absolute inset-0 w-full h-full object-cover">
         <img id="banner-cat-ret-m" src="https://placehold.co/400x600/111/39FF14?text=CAMISAS+RETRO"
-          alt="Retr&ocirc;" class="block md:hidden absolute inset-0 w-full h-full object-cover">
+          alt="Retr&ocirc;" class="block lg:hidden absolute inset-0 w-full h-full object-cover">
       </a>
     </div>
   </section>
@@ -446,8 +446,8 @@
           let link = links[i] || "";
           
           let imgContent = `
-              <img src="${dImg}" onerror="this.src='${fallbackUrl}'" class="hidden md:block w-full h-auto object-cover" alt="Banner ${i+1} Desktop">
-              <img src="${mImg}" onerror="this.src='${fallbackUrl}'" class="block md:hidden w-full h-auto object-cover" alt="Banner ${i+1} Mobile">
+              <img src="${dImg}" onerror="this.src='${fallbackUrl}'" class="hidden lg:block w-full h-auto object-cover" alt="Banner ${i+1} Desktop">
+              <img src="${mImg}" onerror="this.src='${fallbackUrl}'" class="block lg:hidden w-full h-auto object-cover" alt="Banner ${i+1} Mobile">
           `;
           let slideContent = link ? `<a href="${link}" class="block w-full h-full">${imgContent}</a>` : imgContent;
           

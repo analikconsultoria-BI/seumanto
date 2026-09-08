@@ -143,31 +143,27 @@
 
     <!-- BANNERS CARROSSEL HOME -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-      <h2 class="font-sport text-2xl tracking-wide mb-1">Banners Home (Carrossel)</h2>
-      <p class="text-xs text-gray-500 mb-4">Um link de imagem por linha. Para carrossel, adicione v&aacute;rias linhas. Links de redirecionamento s&atilde;o opcionais.</p>
-      <form id="banners-form" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Desktop (1920x600) — 1 URL por linha</label>
-            <textarea id="b-home-d" rows="3" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Mobile (768x900) — 1 URL por linha</label>
-            <textarea id="b-home-m" rows="3" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Links de Redirecionamento (1 por linha, mesma ordem das imagens)</label>
-          <textarea id="b-home-l" rows="2" placeholder="categoria.html?v=Brasileirão&#10;categoria.html?v=Internacionais" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none"></textarea>
-        </div>
-        <button type="submit" class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Carrossel</button>
-      </form>
+      <div class="flex items-start justify-between mb-1 gap-3 flex-wrap">
+        <h2 class="font-sport text-2xl tracking-wide">Banners Home (Carrossel)</h2>
+        <span class="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2 py-1 rounded-full font-semibold whitespace-nowrap">Desktop 1920&times;600 &nbsp;·&nbsp; Mobile 768&times;900</span>
+      </div>
+      <p class="text-xs text-gray-500 mb-5">Cada slide tem uma imagem para desktop e uma para mobile. Clique em <strong>Adicionar Slide</strong> para criar mais banners no carrossel.</p>
+      <div id="carousel-slides-editor" class="space-y-4"></div>
+      <button onclick="addCarouselSlide()" type="button"
+        class="mt-4 flex items-center gap-2 text-sm font-semibold text-[#D6AF68] hover:text-[#A07830] border-2 border-dashed border-[#D6AF68] hover:border-[#A07830] rounded-xl px-5 py-3 w-full justify-center transition-colors">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        Adicionar Slide
+      </button>
+      <div class="mt-4">
+        <button onclick="saveCarouselSlides()" type="button"
+          class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Carrossel</button>
+      </div>
     </div>
 
     <!-- BANNERS CATEGORIAS (3 blocos) -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <h2 class="font-sport text-2xl tracking-wide mb-1">Banners de Categoria (3 blocos)</h2>
-      <p class="text-xs text-gray-500 mb-5">Os 3 blocos de imagem da home. Configure a imagem e para onde cada um leva.</p>
+      <p class="text-xs text-gray-500 mb-5">Os 3 blocos da home. O r&oacute;tulo pode ser editado diretamente no cabe&ccedil;alho de cada bloco.</p>
       <div id="cat-banners-editor" class="space-y-5"></div>
       <button onclick="saveCatBanners()" type="button" class="mt-4 bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Blocos</button>
     </div>
@@ -517,73 +513,190 @@
       alert('WhatsApp salvo: ' + waData);
     }
 
+    // ── UTILITÁRIOS ────────────────────────────────────────
+    function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+    function livePreview(input, imgId, phId) {
+      const img = document.getElementById(imgId);
+      const ph  = document.getElementById(phId);
+      const val = input.value.trim();
+      if (val) { img.src = val; img.style.display = ''; if (ph) ph.style.display = 'none'; }
+      else     { img.src = ''; img.style.display = 'none'; if (ph) ph.style.display = 'flex'; }
+    }
+
     // ── BANNERS CARROSSEL HOME ────────────────────────────
-    function joinLines(val) { return Array.isArray(val) ? val.join('\n') : (val || ''); }
-    function getLines(id) { return document.getElementById(id).value.split('\n').map(l => l.trim()).filter(l => l); }
+    let carouselSlides = [];
 
-    document.getElementById('b-home-d').value = joinLines(bannersData.home_desktop);
-    document.getElementById('b-home-m').value = joinLines(bannersData.home_mobile);
-    document.getElementById('b-home-l').value = joinLines(bannersData.home_links);
+    function initCarouselSlides() {
+      const d = Array.isArray(bannersData.home_desktop) ? bannersData.home_desktop : (bannersData.home_desktop ? [bannersData.home_desktop] : []);
+      const m = Array.isArray(bannersData.home_mobile)  ? bannersData.home_mobile  : (bannersData.home_mobile  ? [bannersData.home_mobile]  : []);
+      const l = Array.isArray(bannersData.home_links)   ? bannersData.home_links   : (bannersData.home_links   ? String(bannersData.home_links).split('\n').filter(x=>x) : []);
+      const count = Math.max(d.length, m.length, l.length, 1);
+      carouselSlides = Array.from({length: count}, (_, i) => ({ img_d: d[i]||'', img_m: m[i]||'', link: l[i]||'' }));
+      renderCarouselEditor();
+    }
 
-    document.getElementById('banners-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      bannersData.home_desktop = getLines('b-home-d');
-      bannersData.home_mobile  = getLines('b-home-m');
-      bannersData.home_links   = document.getElementById('b-home-l').value.split('\n').map(l => l.trim());
+    function renderCarouselEditor() {
+      document.getElementById('carousel-slides-editor').innerHTML = carouselSlides.map(slideCardHTML).join('');
+    }
+
+    function slideCardHTML(s, i) {
+      const dSrc = escHtml(s.img_d||''), mSrc = escHtml(s.img_m||'');
+      const dHide = s.img_d ? '' : 'display:none', mHide = s.img_m ? '' : 'display:none';
+      const dPh   = s.img_d ? 'display:none' : '', mPh = s.img_m ? 'display:none' : '';
+      return `
+        <div class="border border-gray-200 rounded-xl overflow-hidden bg-gray-50 shadow-sm">
+          <div class="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100">
+            <span class="font-bold text-sm text-gray-700 flex items-center gap-2">
+              <span class="w-6 h-6 bg-[#D6AF68] text-white rounded-full text-xs font-bold flex items-center justify-center flex-shrink-0">${i+1}</span>
+              Slide ${i+1}
+            </span>
+            <button onclick="removeSlide(${i})" class="text-xs text-red-500 hover:text-red-700 font-semibold px-2 py-1 rounded hover:bg-red-50 transition-colors">&times; Remover</button>
+          </div>
+          <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-2">
+                <svg class="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+                Desktop <span class="text-gray-400 font-normal normal-case">(1920&times;600)</span>
+              </label>
+              <input type="text" id="slide-${i}-d" value="${dSrc}" oninput="livePreview(this,'prev-${i}-d','ph-${i}-d')"
+                placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2">
+              <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="aspect-ratio:16/5;min-height:56px">
+                <img id="prev-${i}-d" src="${dSrc}" onerror="this.style.display='none';document.getElementById('ph-${i}-d').style.display='flex'" style="${dHide}" class="w-full h-full object-cover absolute inset-0">
+                <div id="ph-${i}-d" class="absolute inset-0 flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${dPh}">
+                  <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>Sem imagem</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-2">
+                <svg class="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
+                Mobile <span class="text-gray-400 font-normal normal-case">(768&times;900)</span>
+              </label>
+              <input type="text" id="slide-${i}-m" value="${mSrc}" oninput="livePreview(this,'prev-${i}-m','ph-${i}-m')"
+                placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2">
+              <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="height:110px">
+                <img id="prev-${i}-m" src="${mSrc}" onerror="this.style.display='none';document.getElementById('ph-${i}-m').style.display='flex'" style="${mHide}" class="w-full h-full object-cover absolute inset-0">
+                <div id="ph-${i}-m" class="absolute inset-0 flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${mPh}">
+                  <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>Sem imagem</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 pb-4">
+            <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-1">
+              <svg class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+              Link ao clicar <span class="text-gray-400 font-normal normal-case">(deixe vazio para sem link)</span>
+            </label>
+            <input type="text" id="slide-${i}-l" value="${escHtml(s.link||'')}"
+              placeholder="categoria.html?v=Brasileir%C3%A3o"
+              class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+          </div>
+        </div>`;
+    }
+
+    function addCarouselSlide() {
+      carouselSlides.push({img_d:'',img_m:'',link:''});
+      renderCarouselEditor();
+    }
+
+    function removeSlide(i) {
+      if (carouselSlides.length <= 1) { alert('O carrossel precisa ter pelo menos 1 slide.'); return; }
+      carouselSlides.splice(i, 1);
+      renderCarouselEditor();
+    }
+
+    function saveCarouselSlides() {
+      carouselSlides = carouselSlides.map((_,i) => ({
+        img_d: document.getElementById(`slide-${i}-d`).value.trim(),
+        img_m: document.getElementById(`slide-${i}-m`).value.trim(),
+        link:  document.getElementById(`slide-${i}-l`).value.trim()
+      }));
+      bannersData.home_desktop = carouselSlides.map(s=>s.img_d);
+      bannersData.home_mobile  = carouselSlides.map(s=>s.img_m);
+      bannersData.home_links   = carouselSlides.map(s=>s.link);
       localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
-      alert('Carrossel home salvo!');
-    });
+      alert('Carrossel salvo com sucesso!');
+    }
 
     // ── BANNERS DE CATEGORIA (3 blocos) ──────────────────
     const DEFAULT_CAT_BANNERS = [
       { label: 'Brasileirão',   img_d: bannersData.cat_nac_d || '', img_m: bannersData.cat_nac_m || '', link: 'categoria.html?v=Brasileir%C3%A3o' },
-      { label: 'Internacionais',img_d: bannersData.cat_int_d || '', img_m: bannersData.cat_int_m || '', link: 'categoria.html?v=Internacionais' },
-      { label: 'La Liga',       img_d: bannersData.cat_ret_d || '', img_m: bannersData.cat_ret_m || '', link: 'categoria.html?v=La%20Liga' }
+      { label: 'Internacionais', img_d: bannersData.cat_int_d || '', img_m: bannersData.cat_int_m || '', link: 'categoria.html?v=Internacionais' },
+      { label: 'La Liga',        img_d: bannersData.cat_ret_d || '', img_m: bannersData.cat_ret_m || '', link: 'categoria.html?v=La%20Liga' }
     ];
     let catBannersData = JSON.parse(localStorage.getItem('seumanto_cat_banners')) || DEFAULT_CAT_BANNERS;
     if (catBannersData.length < 3) catBannersData = DEFAULT_CAT_BANNERS;
 
     function renderCatBannersEditor() {
       const el = document.getElementById('cat-banners-editor');
-      el.innerHTML = catBannersData.map((b, i) => `
-        <div class="border border-gray-200 rounded-xl p-4 bg-gray-50">
-          <h3 class="font-bold text-sm text-[#D6AF68] uppercase tracking-wider mb-3">Bloco ${i+1}</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Rótulo (nome exibido)</label>
-              <input type="text" id="cb-label-${i}" value="${b.label}" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+      el.innerHTML = catBannersData.map((b,i) => {
+        const dSrc = escHtml(b.img_d||''), mSrc = escHtml(b.img_m||'');
+        return `
+          <div class="border-2 border-[#D6AF68] rounded-xl overflow-hidden shadow-sm">
+            <div class="bg-black px-4 py-3 flex items-center gap-3">
+              <span class="w-7 h-7 bg-[#D6AF68] text-black text-xs font-bold rounded-full flex items-center justify-center flex-shrink-0">${i+1}</span>
+              <input type="text" id="cb-label-${i}" value="${escHtml(b.label)}" placeholder="Rótulo do bloco..."
+                class="bg-transparent border-0 outline-none text-white font-sport tracking-wider text-lg flex-1 placeholder-gray-600 focus:bg-white/10 rounded px-1">
             </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Link (para onde vai ao clicar)</label>
-              <input type="text" id="cb-link-${i}" value="${b.link}" placeholder="categoria.html?v=Brasileirão" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
+            <div class="p-4 bg-gray-50 space-y-4">
+              <div>
+                <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-1">
+                  <svg class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                  Link ao clicar
+                </label>
+                <input type="text" id="cb-link-${i}" value="${escHtml(b.link)}" placeholder="categoria.html?v=Brasileir%C3%A3o"
+                  class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none bg-white">
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+                    Desktop
+                  </label>
+                  <input type="text" id="cb-imgd-${i}" value="${dSrc}" oninput="livePreview(this,'cat-prev-${i}-d','cat-ph-${i}-d')"
+                    placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+                  <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="aspect-ratio:16/5;min-height:48px">
+                    <img id="cat-prev-${i}-d" src="${dSrc}" onerror="this.style.display='none';document.getElementById('cat-ph-${i}-d').style.display='flex'" style="${b.img_d?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
+                    <div id="cat-ph-${i}-d" class="absolute inset-0 flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.img_d?'display:none':''}">
+                      <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      <span>Sem imagem</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="text-xs font-bold text-gray-500 uppercase flex items-center gap-1.5 mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
+                    Mobile
+                  </label>
+                  <input type="text" id="cb-imgm-${i}" value="${mSrc}" oninput="livePreview(this,'cat-prev-${i}-m','cat-ph-${i}-m')"
+                    placeholder="https://... (usa desktop se vazio)" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+                  <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="height:100px">
+                    <img id="cat-prev-${i}-m" src="${mSrc}" onerror="this.style.display='none';document.getElementById('cat-ph-${i}-m').style.display='flex'" style="${b.img_m?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
+                    <div id="cat-ph-${i}-m" class="absolute inset-0 flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.img_m?'display:none':''}">
+                      <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      <span>Sem imagem · usa desktop</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Imagem Desktop (URL)</label>
-              <input type="text" id="cb-imgd-${i}" value="${joinLines(b.img_d)}" placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Imagem Mobile (URL)</label>
-              <input type="text" id="cb-imgm-${i}" value="${joinLines(b.img_m)}" placeholder="https://... (opcional, usa desktop se vazio)" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none">
-            </div>
-          </div>
-        </div>
-      `).join('');
+          </div>`;
+      }).join('');
     }
 
     function saveCatBanners() {
-      catBannersData = catBannersData.map((b, i) => ({
-        label:  document.getElementById(`cb-label-${i}`).value,
-        link:   document.getElementById(`cb-link-${i}`).value,
-        img_d:  document.getElementById(`cb-imgd-${i}`).value,
-        img_m:  document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
+      catBannersData = catBannersData.map((b,i) => ({
+        label: document.getElementById(`cb-label-${i}`).value,
+        link:  document.getElementById(`cb-link-${i}`).value,
+        img_d: document.getElementById(`cb-imgd-${i}`).value,
+        img_m: document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
       }));
-      // Sync back to bannersData for compatibility
-      bannersData.cat_nac_d = catBannersData[0].img_d;
-      bannersData.cat_nac_m = catBannersData[0].img_m;
-      bannersData.cat_int_d = catBannersData[1].img_d;
-      bannersData.cat_int_m = catBannersData[1].img_m;
-      bannersData.cat_ret_d = catBannersData[2].img_d;
-      bannersData.cat_ret_m = catBannersData[2].img_m;
+      bannersData.cat_nac_d = catBannersData[0].img_d; bannersData.cat_nac_m = catBannersData[0].img_m;
+      bannersData.cat_int_d = catBannersData[1].img_d; bannersData.cat_int_m = catBannersData[1].img_m;
+      bannersData.cat_ret_d = catBannersData[2].img_d; bannersData.cat_ret_m = catBannersData[2].img_m;
       localStorage.setItem('seumanto_cat_banners', JSON.stringify(catBannersData));
       localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
       alert('Blocos de categoria salvos!');
@@ -591,6 +704,7 @@
 
     renderTable();
     renderCatBannersEditor();
+    initCarouselSlides();
     initCategories();
     renderVitrinesManager();
 
