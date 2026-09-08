@@ -28,7 +28,7 @@
     ],
     "home_mobile": [
       "assets\\img\\corinthiansbannerretro.png",
-      "\\assets\\img\\palmeirasbannerretro.png"
+      "assets\\img\\palmeirasbannerretro.png"
     ],
     "cat_nac_d": "assets\\img\\BRASILEIRAO.png",
     "cat_nac_m": "assets\\img\\BRASILEIRAO.png",
@@ -52,7 +52,7 @@
       "subs": [
         {
           "title": "Minas Gerais",
-          "items": "Atlético Mineiro, Cruzeiro, América Mineiro"
+          "items": "Atlético Mineiro, Cruzeiro"
         },
         {
           "title": "Rio de Janeiro",
