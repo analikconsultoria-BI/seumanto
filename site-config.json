@@ -27,8 +27,9 @@
       "assets\\img\\colecaoretrocor.png"
     ],
     "home_mobile": [
-      "assets\\img\\corinthiansbannerretro.png",
-      "assets\\img\\palmeirasbannerretro.png"
+      "",
+      "assets\\img\\palmeirasbannerretro.png",
+      "assets\\img\\corinthiansbannerretro.png"
     ],
     "cat_nac_d": "assets\\img\\BRASILEIRAO.png",
     "cat_nac_m": "assets\\img\\BRASILEIRAO.png",
