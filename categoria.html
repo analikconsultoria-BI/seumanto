@@ -440,24 +440,34 @@
           const cfgResp = await fetch('site-config.json?' + Date.now());
           if (!cfgResp.ok) return;
           const cfg = await cfgResp.json();
-          if (!cfg.cat_banners) return;
-          const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
-          const match = cfg.cat_banners.find(b => {
-            if (slug(b.label||'') === slug(catName)) return true;
-            const linkV = new URLSearchParams((b.link||'').split('?')[1]||'').get('v') || '';
-            return linkV && slug(linkV) === slug(catName);
-          });
-          if (!match || (!match.page_img_d && !match.page_img_m)) return;
+          const slug = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+          const catSlug = slug(catName);
+          let match = null;
+
+          // 1. Check cat_page_banners (flexible, any category)
+          if (Array.isArray(cfg.cat_page_banners)) {
+            match = cfg.cat_page_banners.find(b => slug(b.key) === catSlug);
+          }
+          // 2. Fallback: cat_banners[i].page_img_d (legacy)
+          if (!match && Array.isArray(cfg.cat_banners)) {
+            const cb = cfg.cat_banners.find(b => {
+              if (slug(b.label) === catSlug) return true;
+              const linkV = new URLSearchParams((b.link||'').split('?')[1]||'').get('v') || '';
+              return linkV && slug(linkV) === catSlug;
+            });
+            if (cb && (cb.page_img_d || cb.page_img_m)) {
+              match = { img_d: cb.page_img_d, img_m: cb.page_img_m, link: cb.page_link };
+            }
+          }
+
+          if (!match || (!match.img_d && !match.img_m)) return;
           const bannerEl = document.getElementById('cat-page-banner');
           if (!bannerEl) return;
-          const dImg = match.page_img_d || '';
-          const mImg = match.page_img_m || '';
-          const lnk  = match.page_link  || '';
           const inner = [
-            dImg ? `<img src="${dImg}" class="hidden lg:block w-full h-auto" onerror="this.style.display='none'">` : '',
-            mImg ? `<img src="${mImg}" class="block lg:hidden w-full h-auto" onerror="this.style.display='none'">` : '',
+            match.img_d ? `<img src="${match.img_d}" class="hidden lg:block w-full h-auto" onerror="this.style.display='none'">` : '',
+            match.img_m ? `<img src="${match.img_m}" class="block lg:hidden w-full h-auto" onerror="this.style.display='none'">` : '',
           ].join('');
-          bannerEl.innerHTML = lnk ? `<a href="${lnk}">${inner}</a>` : inner;
+          bannerEl.innerHTML = match.link ? `<a href="${match.link}">${inner}</a>` : inner;
         } catch(e) {}
       })();
 

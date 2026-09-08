@@ -184,6 +184,21 @@
       <button onclick="saveCatBanners()" type="button" class="mt-4 bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Blocos</button>
     </div>
 
+    <!-- BANNERS INTERNOS DE CATEGORIA (por chave livre) -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+      <h2 class="font-sport text-2xl tracking-wide mb-1">Banners Internos de Categoria</h2>
+      <p class="text-xs text-gray-500 mb-5">Banner (1440&times;250) exibido no topo da p&aacute;gina de qualquer categoria &mdash; Brasileir&atilde;o, La Liga, Palmeiras, Retro Palmeiras, etc. A <strong>Chave</strong> deve corresponder ao par&acirc;metro <code class="bg-gray-100 px-1 rounded">v=</code> da URL da categoria.</p>
+      <div id="cat-page-banners-editor" class="space-y-5"></div>
+      <button onclick="addCatPageBanner()" type="button"
+        class="mt-4 flex items-center gap-2 text-sm font-semibold text-gray-600 border border-dashed border-gray-300 rounded-lg px-4 py-2.5 hover:border-[#D6AF68] hover:text-[#D6AF68] transition-colors">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        Adicionar Banner de Categoria
+      </button>
+      <div class="mt-4">
+        <button onclick="saveCatPageBanners()" type="button" class="bg-[#D6AF68] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#A07830] transition-colors text-sm">Salvar Banners de Categoria</button>
+      </div>
+    </div>
+
     <!-- MEGA MENU / CATEGORIAS -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
       <h2 class="font-sport text-2xl tracking-wide mb-1">Menu de Categorias e Ligas</h2>
@@ -697,42 +712,6 @@
                   </div>
                 </div>
               </div>
-              <!-- Banner interno da página de categoria (1440×250) -->
-              <div class="border-t border-dashed border-gray-300 mt-4 pt-4">
-                <p class="text-xs font-bold text-gray-500 uppercase mb-3 flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 10h20"/></svg>
-                  Banner interno da página (1440×250)
-                </p>
-                <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Link ao clicar</label>
-                <input type="text" id="cb-pglnk-${i}" value="${escHtml(b.page_link||'')}" placeholder="https://..."
-                  class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-3 bg-white">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Desktop (1440×250)</label>
-                    <input type="text" id="cb-pgd-${i}" value="${escHtml(b.page_img_d||'')}" oninput="livePreview(this,'pg-prev-${i}-d','pg-ph-${i}-d')" placeholder="https://..."
-                      class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
-                    <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="aspect-ratio:1440/250;min-height:40px">
-                      <img id="pg-prev-${i}-d" src="${escHtml(b.page_img_d||'')}" onerror="this.style.display='none';document.getElementById('pg-ph-${i}-d').style.display='flex'" style="${b.page_img_d?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
-                      <div id="pg-ph-${i}-d" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.page_img_d?'display:none':''}">
-                        <svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        <span>Sem imagem</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Mobile (768×300)</label>
-                    <input type="text" id="cb-pgm-${i}" value="${escHtml(b.page_img_m||'')}" oninput="livePreview(this,'pg-prev-${i}-m','pg-ph-${i}-m')" placeholder="https://... (usa desktop se vazio)"
-                      class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
-                    <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="height:80px">
-                      <img id="pg-prev-${i}-m" src="${escHtml(b.page_img_m||'')}" onerror="this.style.display='none';document.getElementById('pg-ph-${i}-m').style.display='flex'" style="${b.page_img_m?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
-                      <div id="pg-ph-${i}-m" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.page_img_m?'display:none':''}">
-                        <svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        <span>Sem imagem · usa desktop</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>`;
       }).join('');
@@ -740,13 +719,10 @@
 
     function saveCatBanners() {
       catBannersData = catBannersData.map((b,i) => ({
-        label:      document.getElementById(`cb-label-${i}`).value,
-        link:       document.getElementById(`cb-link-${i}`).value,
-        img_d:      document.getElementById(`cb-imgd-${i}`).value,
-        img_m:      document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
-        page_img_d: document.getElementById(`cb-pgd-${i}`).value,
-        page_img_m: document.getElementById(`cb-pgm-${i}`).value,
-        page_link:  document.getElementById(`cb-pglnk-${i}`).value,
+        label: document.getElementById(`cb-label-${i}`).value,
+        link:  document.getElementById(`cb-link-${i}`).value,
+        img_d: document.getElementById(`cb-imgd-${i}`).value,
+        img_m: document.getElementById(`cb-imgm-${i}`).value || document.getElementById(`cb-imgd-${i}`).value,
       }));
       bannersData.cat_nac_d = catBannersData[0].img_d; bannersData.cat_nac_m = catBannersData[0].img_m;
       bannersData.cat_int_d = catBannersData[1].img_d; bannersData.cat_int_m = catBannersData[1].img_m;
@@ -754,6 +730,88 @@
       localStorage.setItem('seumanto_cat_banners', JSON.stringify(catBannersData));
       localStorage.setItem('seumanto_banners', JSON.stringify(bannersData));
       alert('Blocos de categoria salvos!');
+    }
+
+    // ── BANNERS INTERNOS DE CATEGORIA (chave livre) ──
+    const _phSvg = `<svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`;
+
+    let catPageBannersData = JSON.parse(localStorage.getItem('seumanto_cat_page_banners')) || [];
+
+    function catPageBannerCardHTML(b, i) {
+      const dSrc = escHtml(b.img_d || ''), mSrc = escHtml(b.img_m || '');
+      return `
+        <div class="border-2 border-amber-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-amber-50 border-b border-amber-200 px-4 py-3 flex items-center gap-3">
+            <span class="w-7 h-7 bg-[#D6AF68] text-black text-xs font-bold rounded-full flex items-center justify-center flex-shrink-0">${i+1}</span>
+            <div class="flex-1 flex items-center gap-2">
+              <label class="text-xs font-bold text-gray-500 uppercase whitespace-nowrap">Chave (v=)</label>
+              <input type="text" id="cpb-key-${i}" value="${escHtml(b.key||'')}" placeholder="ex: La Liga, Palmeiras, Retro Palmeiras..."
+                class="flex-1 border border-amber-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none bg-white">
+            </div>
+            <button onclick="removeCatPageBanner(${i})" type="button" class="text-gray-400 hover:text-red-400 transition-colors text-xs font-semibold flex-shrink-0">&times; Remover</button>
+          </div>
+          <div class="p-4 bg-white space-y-4">
+            <div>
+              <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Link ao clicar (opcional)</label>
+              <input type="text" id="cpb-link-${i}" value="${escHtml(b.link||'')}" placeholder="https://..."
+                class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none bg-white">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="text-xs font-bold text-gray-500 uppercase mb-2 block">Desktop (1440&times;250)</label>
+                <input type="text" id="cpb-imgd-${i}" value="${dSrc}" oninput="livePreview(this,'cpb-prev-${i}-d','cpb-ph-${i}-d')"
+                  placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+                <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="aspect-ratio:1440/250;min-height:48px">
+                  <img id="cpb-prev-${i}-d" src="${dSrc}" onerror="this.style.display='none';document.getElementById('cpb-ph-${i}-d').style.display='flex'" style="${b.img_d?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
+                  <div id="cpb-ph-${i}-d" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.img_d?'display:none':''}">${_phSvg}<span>Sem imagem</span></div>
+                </div>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-gray-500 uppercase mb-2 block">Mobile <span class="text-red-400 font-normal normal-case">– se vazio, n&atilde;o aparece</span></label>
+                <input type="text" id="cpb-imgm-${i}" value="${mSrc}" oninput="livePreview(this,'cpb-prev-${i}-m','cpb-ph-${i}-m')"
+                  placeholder="https://..." class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#D6AF68] outline-none mb-2 bg-white">
+                <div class="relative bg-gray-200 rounded-lg overflow-hidden" style="height:80px">
+                  <img id="cpb-prev-${i}-m" src="${mSrc}" onerror="this.style.display='none';document.getElementById('cpb-ph-${i}-m').style.display='flex'" style="${b.img_m?'':'display:none'}" class="w-full h-full object-cover absolute inset-0">
+                  <div id="cpb-ph-${i}-m" class="absolute inset-0 flex flex-col gap-1 items-center justify-center text-xs text-gray-400" style="${b.img_m?'display:none':''}">${_phSvg}<span>Sem imagem &mdash; n&atilde;o aparece no mobile</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderCatPageBannersEditor() {
+      const el = document.getElementById('cat-page-banners-editor');
+      if (!el) return;
+      if (catPageBannersData.length === 0) {
+        el.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Nenhum banner. Clique em "Adicionar Banner de Categoria".</p>';
+        return;
+      }
+      el.innerHTML = catPageBannersData.map((b, i) => catPageBannerCardHTML(b, i)).join('');
+    }
+
+    function addCatPageBanner() {
+      catPageBannersData.push({ key: '', img_d: '', img_m: '', link: '' });
+      renderCatPageBannersEditor();
+      // scroll to new card
+      setTimeout(() => { const el = document.getElementById('cat-page-banners-editor'); if (el) el.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+    }
+
+    function removeCatPageBanner(i) {
+      catPageBannersData.splice(i, 1);
+      renderCatPageBannersEditor();
+    }
+
+    function saveCatPageBanners() {
+      catPageBannersData = catPageBannersData.map((b, i) => ({
+        key:   document.getElementById(`cpb-key-${i}`).value.trim(),
+        img_d: document.getElementById(`cpb-imgd-${i}`).value.trim(),
+        img_m: document.getElementById(`cpb-imgm-${i}`).value.trim(),
+        link:  document.getElementById(`cpb-link-${i}`).value.trim(),
+      })).filter(b => b.key);
+      localStorage.setItem('seumanto_cat_page_banners', JSON.stringify(catPageBannersData));
+      renderCatPageBannersEditor();
+      alert('Banners de categoria salvos!');
     }
 
     // ── GRIDS SLIDES EDITOR ──────────────────────────
@@ -828,6 +886,7 @@
 
     renderTable();
     renderCatBannersEditor();
+    renderCatPageBannersEditor();
     renderGridsEditor();
     initCarouselSlides();
     initCategories();
@@ -884,14 +943,16 @@
     // EXPORTAR CONFIGURAÇÃO → site-config.json
     // =============================================
     document.getElementById('export-config-btn').addEventListener('click', function() {
-      const bannersData  = JSON.parse(localStorage.getItem('seumanto_banners')) || {};
-      const megaData     = JSON.parse(localStorage.getItem('seumanto_megafooter')) || [];
-      const catBanners   = JSON.parse(localStorage.getItem('seumanto_cat_banners')) || DEFAULT_CAT_BANNERS;
-      const waNumber     = localStorage.getItem('seumanto_config_wa') || '5519988369538';
+      const bannersData      = JSON.parse(localStorage.getItem('seumanto_banners')) || {};
+      const megaData         = JSON.parse(localStorage.getItem('seumanto_megafooter')) || [];
+      const catBanners       = JSON.parse(localStorage.getItem('seumanto_cat_banners')) || DEFAULT_CAT_BANNERS;
+      const catPageBanners   = JSON.parse(localStorage.getItem('seumanto_cat_page_banners')) || [];
+      const waNumber         = localStorage.getItem('seumanto_config_wa') || '5519988369538';
 
       const config = {
         whatsapp: waNumber,
         cat_banners: catBanners,
+        cat_page_banners: catPageBanners,
         banners: bannersData,
         megafooter: megaData
       };
