@@ -276,21 +276,13 @@
         <div class="flex flex-wrap items-center justify-center gap-3 pb-2 pt-2" id="liga-filters-container" style="display:none;">
           <!-- JS renderiza -->
         </div>
-        <!-- Times: linha única com setas de navegação -->
-        <div class="relative flex items-center mt-2" id="team-filters-wrapper">
-          <button id="team-scroll-left"
-            class="absolute left-0 z-10 w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-full shadow-sm text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-all hidden flex-shrink-0"
-            onclick="scrollTeams(-1)">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-          <div class="flex items-center gap-4 overflow-x-hidden pb-4 pt-2 px-10 w-full" id="team-filters-container" style="scroll-behavior:smooth;">
+        <!-- Times: scroll horizontal com fade nas bordas -->
+        <div class="relative mt-2" id="team-filters-wrapper">
+          <div class="pointer-events-none absolute left-0 top-0 bottom-0 w-10 z-10 transition-opacity duration-200" id="team-fade-left" style="background:linear-gradient(to right,#fff,transparent);opacity:0"></div>
+          <div class="flex items-center gap-3 overflow-x-auto pb-3 pt-2 team-scroll-track" id="team-filters-container">
             <!-- JS renderiza -->
           </div>
-          <button id="team-scroll-right"
-            class="absolute right-0 z-10 w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-full shadow-sm text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-all hidden flex-shrink-0"
-            onclick="scrollTeams(1)">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-          </button>
+          <div class="pointer-events-none absolute right-0 top-0 bottom-0 w-10 z-10 transition-opacity duration-200" id="team-fade-right" style="background:linear-gradient(to left,#fff,transparent);opacity:0"></div>
         </div>
       </div>
     </div>
@@ -327,6 +319,13 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .team-scroll-track {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+    .team-scroll-track::-webkit-scrollbar { display: none; }
 
     .filter-body-open {
       overflow: hidden;
@@ -613,7 +612,7 @@
         });
         
         teamContainer.style.display = 'flex';
-        setTimeout(updateTeamArrows, 50);
+        setTimeout(updateTeamFades, 50);
       };
 
       window.setLigaFilter = (liga) => {
@@ -689,29 +688,21 @@
       window.currentPage = parseInt(urlParams.get('page')) || 1;
       window.filtersRendered = false;
 
-      // ── Setas de navegação dos times ──────────────────
-      const teamTrack = document.getElementById('team-filters-container');
-      const btnLeft   = document.getElementById('team-scroll-left');
-      const btnRight  = document.getElementById('team-scroll-right');
+      // ── Fade de borda nos times ──────────────────────
+      const teamTrack  = document.getElementById('team-filters-container');
+      const fadeLeft   = document.getElementById('team-fade-left');
+      const fadeRight  = document.getElementById('team-fade-right');
 
-      const updateTeamArrows = () => {
+      const updateTeamFades = () => {
         if (!teamTrack) return;
+        const hasOverflow = teamTrack.scrollWidth > teamTrack.clientWidth + 2;
         const atStart = teamTrack.scrollLeft <= 4;
         const atEnd   = teamTrack.scrollLeft + teamTrack.clientWidth >= teamTrack.scrollWidth - 4;
-        btnLeft.classList.toggle('hidden', atStart);
-        btnRight.classList.toggle('hidden', atEnd || teamTrack.scrollWidth <= teamTrack.clientWidth);
+        if (fadeLeft)  fadeLeft.style.opacity  = (!atStart && hasOverflow) ? '1' : '0';
+        if (fadeRight) fadeRight.style.opacity = (!atEnd   && hasOverflow) ? '1' : '0';
       };
 
-      window.scrollTeams = (dir) => {
-        teamTrack.scrollLeft += dir * (teamTrack.clientWidth * 0.7);
-        setTimeout(updateTeamArrows, 350);
-      };
-
-      if (teamTrack) teamTrack.addEventListener('scroll', updateTeamArrows);
-
-      // Reavaliar setas sempre que os filtros forem re-renderizados
-      const _origRenderFilters = window._origRenderFilters;
-      const recheckArrows = () => setTimeout(updateTeamArrows, 50);
+      if (teamTrack) teamTrack.addEventListener('scroll', updateTeamFades);
 
       // ── Toggle de filtros ─────────────────────────────
       let filtersOpen = true;
