@@ -437,28 +437,37 @@
       // Carregar banner de página da categoria
       (async () => {
         try {
-          const cfgResp = await fetch('site-config.json?' + Date.now());
-          if (!cfgResp.ok) return;
-          const cfg = await cfgResp.json();
           const slug = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
           const catSlug = slug(catName);
           let match = null;
 
-          // 1. Check cat_page_banners (flexible, any category)
-          if (Array.isArray(cfg.cat_page_banners)) {
-            match = cfg.cat_page_banners.find(b => slug(b.key) === catSlug);
-          }
-          // 2. Fallback: cat_banners[i].page_img_d (legacy)
-          if (!match && Array.isArray(cfg.cat_banners)) {
-            const cb = cfg.cat_banners.find(b => {
-              if (slug(b.label) === catSlug) return true;
-              const linkV = new URLSearchParams((b.link||'').split('?')[1]||'').get('v') || '';
-              return linkV && slug(linkV) === catSlug;
-            });
-            if (cb && (cb.page_img_d || cb.page_img_m)) {
-              match = { img_d: cb.page_img_d, img_m: cb.page_img_m, link: cb.page_link };
+          // Fonte 1: site-config.json (produção, após export+push)
+          let cfgCpb = [];
+          try {
+            const cfgResp = await fetch('site-config.json?' + Date.now());
+            if (cfgResp.ok) {
+              const cfg = await cfgResp.json();
+              if (Array.isArray(cfg.cat_page_banners)) cfgCpb = cfg.cat_page_banners;
+              // legacy fallback
+              if (cfgCpb.length === 0 && Array.isArray(cfg.cat_banners)) {
+                cfg.cat_banners.forEach(b => {
+                  if (b.page_img_d || b.page_img_m) {
+                    cfgCpb.push({ key: b.label, img_d: b.page_img_d, img_m: b.page_img_m, link: b.page_link });
+                    const linkV = new URLSearchParams((b.link||'').split('?')[1]||'').get('v') || '';
+                    if (linkV) cfgCpb.push({ key: linkV, img_d: b.page_img_d, img_m: b.page_img_m, link: b.page_link });
+                  }
+                });
+              }
             }
-          }
+          } catch(e) {}
+
+          // Fonte 2: localStorage (admin salva aqui antes do push)
+          let lsCpb = [];
+          try { lsCpb = JSON.parse(localStorage.getItem('seumanto_cat_page_banners') || '[]'); } catch(e) {}
+
+          // Preferência: config (se tiver dados) > localStorage
+          const allCpb = cfgCpb.length > 0 ? cfgCpb : lsCpb;
+          match = allCpb.find(b => slug(b.key) === catSlug);
 
           if (!match || (!match.img_d && !match.img_m)) return;
           const bannerEl = document.getElementById('cat-page-banner');

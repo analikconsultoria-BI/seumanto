@@ -153,6 +153,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (r.ok) siteConfig = await r.json();
   } catch(e) {}
 
+  if (siteConfig && Array.isArray(siteConfig.cat_page_banners) && siteConfig.cat_page_banners.length > 0) {
+    localStorage.setItem('seumanto_cat_page_banners', JSON.stringify(siteConfig.cat_page_banners));
+  }
+
   if (siteConfig && siteConfig.banners) {
     BANNERS = siteConfig.banners;
     localStorage.setItem('seumanto_banners', JSON.stringify(BANNERS));
