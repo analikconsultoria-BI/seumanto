@@ -793,14 +793,34 @@
     function addCatPageBanner() {
       catPageBannersData.push({ key: '', img_d: '', img_m: '', link: '' });
       renderCatPageBannersEditor();
-      // scroll to new card
       setTimeout(() => { const el = document.getElementById('cat-page-banners-editor'); if (el) el.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
     }
 
     function removeCatPageBanner(i) {
       catPageBannersData.splice(i, 1);
+      localStorage.setItem('seumanto_cat_page_banners', JSON.stringify(catPageBannersData));
       renderCatPageBannersEditor();
     }
+
+    // Persiste o estado atual dos inputs no localStorage sem re-render
+    function _cpbPersist() {
+      const saved = catPageBannersData.map((b, i) => ({
+        key:   (document.getElementById(`cpb-key-${i}`)?.value  ?? b.key  ?? '').trim(),
+        img_d: (document.getElementById(`cpb-imgd-${i}`)?.value ?? b.img_d ?? '').trim(),
+        img_m: (document.getElementById(`cpb-imgm-${i}`)?.value ?? b.img_m ?? '').trim(),
+        link:  (document.getElementById(`cpb-link-${i}`)?.value ?? b.link  ?? '').trim(),
+      }));
+      localStorage.setItem('seumanto_cat_page_banners', JSON.stringify(saved));
+    }
+
+    // Autosave: qualquer mudança nos inputs do editor persiste após 600ms
+    let _cpbTimer = null;
+    document.addEventListener('input', function(e) {
+      if ((e.target.id||'').match(/^cpb-(key|imgd|imgm|link)-\d+$/)) {
+        clearTimeout(_cpbTimer);
+        _cpbTimer = setTimeout(_cpbPersist, 600);
+      }
+    });
 
     function saveCatPageBanners() {
       catPageBannersData = catPageBannersData.map((b, i) => ({
