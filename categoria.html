@@ -248,19 +248,22 @@
   <div id="cat-page-banner" class="w-full bg-gray-50"></div>
 
   <!-- CATEGORY GRID -->
-  <section class="py-12 bg-gray-50 min-h-screen">
-    <div class="max-w-7xl mx-auto px-6 mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-      <div>
-        <a href="index.html" class="text-xs text-gray-400 hover:text-black mb-2 inline-block">&larr; Voltar para
-          Home</a>
-        <h2 class="sec-label" id="category-title">CATEGORIA</h2>
-        <div class="gold-line mb-0"></div>
+  <section class="pt-2 pb-12 bg-gray-50 min-h-screen">
+    <!-- Compact header: breadcrumb + count -->
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-2.5 flex items-center justify-between gap-4 border-b border-gray-200 mb-4">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="index.html" class="text-xs text-gray-400 hover:text-black transition-colors flex items-center gap-1 flex-shrink-0">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          Home
+        </a>
+        <span class="text-gray-300 text-xs flex-shrink-0">/</span>
+        <h1 class="text-sm font-bold text-gray-800 uppercase tracking-wider truncate font-sport" id="category-title">CATEGORIA</h1>
       </div>
-      <div class="text-xs text-gray-500 font-medium" id="category-count">Carregando...</div>
+      <div class="text-xs text-gray-400 font-medium flex-shrink-0" id="category-count">Carregando...</div>
     </div>
 
     <!-- FILTROS -->
-    <div class="max-w-7xl mx-auto px-4 md:px-6 mb-8">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 mb-5">
       <!-- Toggle -->
       <div class="flex items-center justify-center gap-3 mb-3">
         <button id="filter-toggle-btn" onclick="toggleFilters()"
