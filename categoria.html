@@ -244,23 +244,25 @@
     </div>
   </header>
 
-  <!-- Banner de página da categoria (full width, antes do grid) -->
-  <div id="cat-page-banner" class="w-full bg-gray-50"></div>
+  <!-- Breadcrumb: acima do banner de categoria -->
+  <div class="bg-gray-100 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center gap-2">
+      <a href="index.html" class="text-xs text-gray-400 hover:text-black transition-colors flex items-center gap-1 flex-shrink-0">
+        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Home
+      </a>
+      <span class="text-gray-300 text-xs">/</span>
+      <span class="text-xs font-bold text-gray-600 uppercase tracking-wider font-sport" id="category-title">CATEGORIA</span>
+    </div>
+  </div>
+
+  <!-- Banner de página da categoria (full width) -->
+  <div id="cat-page-banner" class="w-full"></div>
 
   <!-- CATEGORY GRID -->
-  <section class="pt-2 pb-12 bg-gray-50 min-h-screen">
-    <!-- Compact header: breadcrumb + count -->
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-2.5 flex items-center justify-between gap-4 border-b border-gray-200 mb-4">
-      <div class="flex items-center gap-2 min-w-0">
-        <a href="index.html" class="text-xs text-gray-400 hover:text-black transition-colors flex items-center gap-1 flex-shrink-0">
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          Home
-        </a>
-        <span class="text-gray-300 text-xs flex-shrink-0">/</span>
-        <h1 class="text-sm font-bold text-gray-800 uppercase tracking-wider truncate font-sport" id="category-title">CATEGORIA</h1>
-      </div>
-      <div class="text-xs text-gray-400 font-medium flex-shrink-0" id="category-count">Carregando...</div>
-    </div>
+  <section class="pt-3 pb-12 bg-gray-50 min-h-screen">
+    <!-- count fantasma para manter compatibilidade com o JS -->
+    <span id="category-count" class="hidden"></span>
 
     <!-- FILTROS -->
     <div class="max-w-7xl mx-auto px-4 md:px-6 mb-5">
@@ -270,12 +272,12 @@
           class="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-200 bg-white rounded-full px-4 py-1.5 hover:bg-gray-50 transition-all shadow-sm">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18M7 12h10M11 18h2"/></svg>
           Filtros
-          <svg id="filter-chevron" class="w-3.5 h-3.5 transition-transform duration-300" style="transform:rotate(180deg)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          <svg id="filter-chevron" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <span id="filter-summary" class="hidden text-xs font-semibold text-[#D6AF68]"></span>
       </div>
       <!-- Corpo colapsável -->
-      <div id="filter-body" class="filter-body-open">
+      <div id="filter-body" class="filter-body-closed">
         <div class="flex flex-wrap items-center justify-center gap-3 pb-2" id="type-filters-container">
           <!-- JS renderiza -->
         </div>
@@ -306,7 +308,7 @@
     <div class="max-w-7xl mx-auto px-4 md:px-6">
       <div class="flex items-center justify-between mb-4">
         <span class="text-sm text-gray-500" id="results-count"></span>
-        <!-- Ordenar por futuro -->
+        <span class="text-xs text-gray-400" id="results-pagination"></span>
       </div>
       <div id="category-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
         <!-- JS irá preencher isso -->
@@ -574,6 +576,8 @@
 
         document.getElementById('category-count').innerText = "Mostrando " + paginatedItems.length + " de " + totalItems + " produtos";
         document.getElementById('results-count').innerText = totalItems + " produto(s) encontrado(s)";
+        const rp = document.getElementById('results-pagination');
+        if (rp) rp.innerText = totalItems > PAGE_SIZE ? "Mostrando " + paginatedItems.length + " de " + totalItems : "";
 
         const gridEl = document.getElementById('category-grid');
         if (paginatedItems.length > 0) {
@@ -783,7 +787,7 @@
       if (teamTrack) teamTrack.addEventListener('scroll', updateTeamNav);
 
       // ── Toggle de filtros ─────────────────────────────
-      let filtersOpen = true;
+      let filtersOpen = false;
       window.toggleFilters = () => {
         filtersOpen = !filtersOpen;
         const body     = document.getElementById('filter-body');
