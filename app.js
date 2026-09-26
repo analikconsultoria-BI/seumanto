@@ -552,50 +552,6 @@ function renderCatalog() {
       </section>
       `;
 
-      if (sectionsRendered === 0) {
-        catalogHtml += `
-        <section class="py-10 max-w-7xl mx-auto px-6 border-y border-gray-100 my-8">
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
-            <div class="flex items-center gap-2 md:gap-4">
-              <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-300 flex items-center justify-center flex-shrink-0 text-black">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-xs md:text-sm text-gray-900">Frete Gr&aacute;tis</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-500">para todo Brasil</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 md:gap-4">
-              <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-300 flex items-center justify-center flex-shrink-0 text-black">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-xs md:text-sm text-gray-900">Cart&atilde;o de Cr&eacute;dito</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-500">em at&eacute; 12x no cart&atilde;o</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 md:gap-4">
-              <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-300 flex items-center justify-center flex-shrink-0 text-black">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-xs md:text-sm text-gray-900">Site Seguro</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-500 leading-tight">Certificados de seguran&ccedil;a e pol&iacute;tica de privacidade</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 md:gap-4">
-              <div class="w-10 h-10 md:w-14 md:h-14 rounded-full border border-gray-300 flex items-center justify-center flex-shrink-0 text-black">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-              </div>
-              <div>
-                <h4 class="font-bold text-xs md:text-sm text-gray-900">D&uacute;vidas?</h4>
-                <p class="text-[10px] md:text-[11px] text-gray-500">Me chama no WPP</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        `;
-      }
 
       if (sectionsRendered === 1) {
         // Support both new grids_slides array and legacy grids_desktop/mobile strings
