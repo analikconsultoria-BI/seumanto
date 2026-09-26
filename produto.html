@@ -380,28 +380,18 @@
           `;
           document.title = (product.fullName || product.name) + " - Seu Manto";
 
-          // ── Produtos relacionados ─────────────────────────
+          // ── Produtos relacionados (mesmo time, máx 4) ────────
           const related = [];
-          // 1ª prioridade: mesmo time
-          for (const cat in PRODUCTS) {
-            for (const p of PRODUCTS[cat]) {
-              if (p.id !== product.id && p.team && product.team &&
-                  p.team.toLowerCase() === product.team.toLowerCase()) {
-                related.push(p);
-              }
-            }
-          }
-          // 2ª prioridade: mesma liga/categoria, até completar 8
-          if (related.length < 4) {
+          if (product.team) {
             for (const cat in PRODUCTS) {
               for (const p of PRODUCTS[cat]) {
-                if (p.id !== product.id && !related.find(r => r.id === p.id) &&
-                    p.liga === product.liga) {
+                if (p.id !== product.id && p.team &&
+                    p.team.toLowerCase() === product.team.toLowerCase()) {
                   related.push(p);
-                  if (related.length >= 8) break;
+                  if (related.length >= 4) break;
                 }
               }
-              if (related.length >= 8) break;
+              if (related.length >= 4) break;
             }
           }
           if (related.length > 0 && typeof cardHTML === 'function') {
@@ -409,8 +399,8 @@
             const relTitle = document.getElementById('related-title');
             const relSection = document.getElementById('related-section');
             if (relGrid) {
-              relGrid.innerHTML = related.slice(0, 8).map(cardHTML).join('');
-              if (relTitle && product.team) relTitle.textContent = 'OUTROS ' + product.team.toUpperCase();
+              relGrid.innerHTML = related.map(cardHTML).join('');
+              if (relTitle) relTitle.textContent = 'OUTROS ' + product.team.toUpperCase();
               if (relSection) relSection.classList.remove('hidden');
             }
           }
