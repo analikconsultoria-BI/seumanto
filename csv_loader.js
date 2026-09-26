@@ -155,8 +155,7 @@ function parseCSV(csvText) {
     } else if (["O'Higgins", 'Bayern de Munique', 'Borussia Dortmund', 'Bayer Leverkusen',
                 'Juventus', 'Milan', 'Inter de Milão', 'PSG',
                 'Inter Miami', 'Al Nassr',
-                'Atlético Nacional', 'Atlético Rosario', 'Atlético Tucumán'].includes(team)
-               && catInfo.key !== 'brasileirao') {
+                'Atlético Nacional', 'Atlético Rosario', 'Atlético Tucumán'].includes(team)) {
       catInfo = { key: 'outros', label: 'Outros', vitrine: 'Outros' };
     }
 
