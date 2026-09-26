@@ -50,10 +50,37 @@
       text-transform: uppercase
     }
 
-    .tag-t {
-      background: #111;
-      color: #D6AF68
+    .tag-t { background: #111; color: #D6AF68 }
+    .tag-j { background: #f0fdf4; color: #15803d }
+    .tag-r { background: #fff7ed; color: #c2410c }
+    .tag-f { background: #faf5ff; color: #7e22ce }
+    .tag-k { background: #eff6ff; color: #1d4ed8 }
+    .tag-g { background: #f0fdf4; color: #15803d }
+    .tag-tr{ background: #f9fafb; color: #374151 }
+    .tag-se{ background: #fefce8; color: #854d0e }
+
+    .jersey-card {
+      background: #f9f9f9;
+      border: 1px solid #ececec;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s
     }
+    .jersey-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(201,168,76,.18)
+    }
+    .jersey-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      background: #f0f0f0;
+      transition: transform .4s
+    }
+    .jersey-card:hover img { transform: scale(1.06) }
 
     /* Premium Gallery Styles */
     .gallery-container {
@@ -177,8 +204,10 @@
 
 <body>
   <header class="border-b border-gray-800 bg-black">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
-      <a href="index.html" class="font-sport text-2xl tracking-widest text-white flex-shrink-0">SEU MANTO</a>
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+      <a href="index.html" class="flex items-center flex-shrink-0">
+        <img src="assets/img/logo.jfif" alt="Seu Manto" class="h-12 w-12 object-contain rounded-lg shadow-sm">
+      </a>
 
       <div
         class="hidden md:flex items-center border border-gray-700 rounded-full px-3 py-1.5 w-full max-w-sm mx-6 bg-[#1a1a1a] focus-within:bg-[#2a2a2a] focus-within:border-gold transition-colors">
@@ -203,7 +232,16 @@
     </div>
   </main>
 
-  <footer class="py-12 px-6 text-center border-t border-gray-100 mt-12 bg-gray-50">
+  <!-- PRODUTOS RELACIONADOS -->
+  <section id="related-section" class="hidden border-t border-gray-100 bg-gray-50 py-10">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <h2 class="font-sport text-2xl tracking-wider text-gray-900 mb-1" id="related-title">OUTROS DO MESMO TIME</h2>
+      <div style="width:40px;height:3px;background:#D6AF68;border-radius:2px;margin-bottom:24px"></div>
+      <div id="related-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"></div>
+    </div>
+  </section>
+
+  <footer class="py-12 px-6 text-center border-t border-gray-100 mt-0 bg-gray-50">
     <p class="font-sport text-xl tracking-widest text-gray-900 mb-2">SEU MANTO</p>
     <p class="text-xs text-gray-500">&copy; 2025 Seu Manto. Qualidade Premium.</p>
   </footer>
@@ -341,6 +379,42 @@
           </div>
           `;
           document.title = (product.fullName || product.name) + " - Seu Manto";
+
+          // ── Produtos relacionados ─────────────────────────
+          const related = [];
+          // 1ª prioridade: mesmo time
+          for (const cat in PRODUCTS) {
+            for (const p of PRODUCTS[cat]) {
+              if (p.id !== product.id && p.team && product.team &&
+                  p.team.toLowerCase() === product.team.toLowerCase()) {
+                related.push(p);
+              }
+            }
+          }
+          // 2ª prioridade: mesma liga/categoria, até completar 8
+          if (related.length < 4) {
+            for (const cat in PRODUCTS) {
+              for (const p of PRODUCTS[cat]) {
+                if (p.id !== product.id && !related.find(r => r.id === p.id) &&
+                    p.liga === product.liga) {
+                  related.push(p);
+                  if (related.length >= 8) break;
+                }
+              }
+              if (related.length >= 8) break;
+            }
+          }
+          if (related.length > 0 && typeof cardHTML === 'function') {
+            const relGrid = document.getElementById('related-grid');
+            const relTitle = document.getElementById('related-title');
+            const relSection = document.getElementById('related-section');
+            if (relGrid) {
+              relGrid.innerHTML = related.slice(0, 8).map(cardHTML).join('');
+              if (relTitle && product.team) relTitle.textContent = 'OUTROS ' + product.team.toUpperCase();
+              if (relSection) relSection.classList.remove('hidden');
+            }
+          }
+
         } else {
           container.innerHTML = `<div class="text-center py-20"><h2 class="text-2xl font-bold mb-4">Produto não encontrado</h2></div>`;
         }
