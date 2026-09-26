@@ -24,7 +24,7 @@ window.TEAM_BADGES = {
   'bragantino':             'assets/img/escudos/br/Bragantino_f.webp',
   'chapecoense':            'assets/img/escudos/br/Chapecoense_f.webp',
   'remo':                   'assets/img/escudos/br/Remo.webp',
-  'vitória':                'assets/img/escudos/br/Vitoria.svg',
+  'vitória':                'assets/img/escudos/br/Vitoria.png',
   'mirassol':               'assets/img/escudos/br/Mirassol.svg',
   'coritiba':               'assets/img/escudos/br/Coritiba_f.webp',
   'ceará':                  'assets/img/escudos/br/Ceara_f.webp',

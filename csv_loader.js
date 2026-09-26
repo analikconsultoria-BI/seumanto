@@ -133,7 +133,12 @@ function parseCSV(csvText) {
     prod.images.sort((a, b) => a.order - b.order);
 
     // Extract team name and season from title
-    const { team, season, tagLabel, tag, cleanName, type, retro, edition } = parseTitle(prod.titulo);
+    let { team, season, tagLabel, tag, cleanName, type, retro, edition } = parseTitle(prod.titulo);
+
+    // Desambiguar Juventus: se o CSV é do Brasileirão e o título não contém "da Mooca", corrigir nome
+    if (team === 'Juventus' && catMap[prod.categoria]?.key === 'brasileirao') {
+      team = 'Juventus da Mooca';
+    }
 
     // Sobrescrever a categoria se for infantil ou feminino ou erro do fornecedor
     if (isKids) {
@@ -150,7 +155,8 @@ function parseCSV(csvText) {
     } else if (["O'Higgins", 'Bayern de Munique', 'Borussia Dortmund', 'Bayer Leverkusen',
                 'Juventus', 'Milan', 'Inter de Milão', 'PSG',
                 'Inter Miami', 'Al Nassr',
-                'Atlético Nacional', 'Atlético Rosario', 'Atlético Tucumán'].includes(team)) {
+                'Atlético Nacional', 'Atlético Rosario', 'Atlético Tucumán'].includes(team)
+               && catInfo.key !== 'brasileirao') {
       catInfo = { key: 'outros', label: 'Outros', vitrine: 'Outros' };
     }
 
