@@ -80,8 +80,8 @@ function buildMenuFromProducts(products) {
     });
   });
 
-  const LIGA_ORDER = ['Brasileirão', 'La Liga', 'Premier League', 'Internacionais'];
-  const LIGA_ID    = { 'Brasileirão': 'brasileirao', 'La Liga': 'laliga', 'Premier League': 'premier', 'Internacionais': 'internacionais' };
+  const LIGA_ORDER = ['Brasileirão', 'La Liga', 'Premier League', 'Outros'];
+  const LIGA_ID    = { 'Brasileirão': 'brasileirao', 'La Liga': 'laliga', 'Premier League': 'premier', 'Outros': 'outros' };
 
   return LIGA_ORDER
     .filter(liga => ligaTeams[liga] && ligaTeams[liga].size > 0)

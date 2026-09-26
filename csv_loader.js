@@ -151,7 +151,7 @@ function parseCSV(csvText) {
                 'Juventus', 'Milan', 'Inter de Milão', 'PSG',
                 'Inter Miami', 'Al Nassr',
                 'Atlético Nacional', 'Atlético Rosario', 'Atlético Tucumán'].includes(team)) {
-      catInfo = { key: 'internacionais', label: 'Internacionais', vitrine: 'Internacionais' };
+      catInfo = { key: 'outros', label: 'Outros', vitrine: 'Outros' };
     }
 
     if (!products[catInfo.key]) {

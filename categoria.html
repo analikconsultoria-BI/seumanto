@@ -510,7 +510,8 @@
         const removeAccents = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         // Ligas conhecidas: busca apenas por liga exata, sem fuzzy search
-        const knownLeagues = ['brasileirão', 'la liga', 'premier league', 'internacionais', 'brasileiros', 'retrô', 'retro'];
+        const knownLeagues = ['brasileirão', 'la liga', 'premier league', 'internacionais', 'outros', 'brasileiros', 'retrô', 'retro'];
+        const brLeagues = ['brasileirão', 'feminino', 'infantil'];
 
         let baseItems = allProducts.filter(p => {
           // Vitrine match
@@ -519,8 +520,10 @@
           if (p.liga && p.liga.toLowerCase() === searchVal) return true;
           // Alias legado
           if (searchVal === 'brasileiros' && (p.liga === 'Brasileirão' || p.category === 'brasileirao')) return true;
+          // Internacionais = todos os não-brasileiros (La Liga + Premier + Outros)
+          if (searchVal === 'internacionais' && p.liga && !brLeagues.includes(p.liga.toLowerCase())) return true;
 
-          // Para ligas conhecidas, não cai na busca fuzzy (evita "Internacional" aparecer em "Internacionais" etc.)
+          // Para ligas conhecidas, não cai na busca fuzzy
           if (knownLeagues.includes(removeAccents(searchVal).toLowerCase())) return false;
 
           // Tokenized robust search
